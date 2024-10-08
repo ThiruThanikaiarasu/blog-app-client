@@ -1,21 +1,37 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-
-import { BsPencilSquare } from "react-icons/bs";
-import { MdOutlineAccountCircle } from "react-icons/md";
-import { MdOutlineLibraryBooks } from "react-icons/md";
-import { RiAccountBoxLine } from "react-icons/ri";
-import { TbChecklist } from "react-icons/tb";
-
-
+import useUserContext from '../hooks/useUserContext'
+import { NotebookPen } from 'lucide-react'
+import logo from '../assets/img/logo.jpg'
+import UserProfileDropdownMenu from './UserProfileDropdownMenu'
 
 const NavbarComponent = () => {
+    const { isUserLoggedIn } = useUserContext()
+    const [isOpen, setIsOpen] = useState(false)
+    const dropdownRef = useRef(null)  
 
-    const {isLoggedIn, setIsLoggedIn } = useState(false)
-
-    const handleSignout = () => {
-
+    const handleToggle = () => {
+        setIsOpen((prev) => !prev)
     }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false)
+            }
+        }
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside)
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [isOpen])
+
     return (
         <nav className="w-full bg-gray-800 text-white flex justify-between p-4">
             <div className="flex items-center">
@@ -23,17 +39,34 @@ const NavbarComponent = () => {
             </div>
             <div className="flex items-center">
                 <ul className="flex space-x-4">
-                    <li>
+                    <li
+                        className="mr-4"
+                    >
                         <Link className="text-lg flex items-center" to="/write">
-                            <BsPencilSquare className="mr-1" /> Write
+                            <NotebookPen className="mr-2" size={20}/> Write
                         </Link>
                     </li>
-                    {isLoggedIn ? (
+                    {isUserLoggedIn ? (
                         <li className="relative">
-                            <div className="text-lg flex items-center cursor-pointer">
-                                <MdOutlineAccountCircle className="text-2xl mr-1" /> Account
+                            <div 
+                                className="text-lg flex items-center cursor-pointer h-7 w-7 mr-6"
+                                onClick={handleToggle}
+                                aria-expanded={isOpen}
+                                aria-haspopup="true"
+                                role="button"
+                                tabIndex="0"
+                                onKeyDown={(e) => e.key === 'Enter' && handleToggle()}
+                            >
+                                <img 
+                                    src={logo} 
+                                    alt="Logo"
+                                    className="h-auto w-auto max-h-full max-w-full object-contain rounded-full" 
+                                />
                             </div>
-                            
+                            <UserProfileDropdownMenu 
+                                isOpen={isOpen} 
+                                dropdownRef={dropdownRef}
+                            />
                         </li>
                     ) : (
                         <li>

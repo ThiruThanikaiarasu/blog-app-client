@@ -2,13 +2,14 @@ import React from 'react'
 
 import './App.css'
 import AppRoute from './routes/AppRoute'
+import { UserProvider } from './context/UserContext'
 
 
 const App = () => {
     return (
-        <React.Fragment>
+        <UserProvider>
             <AppRoute />
-        </React.Fragment>
+        </UserProvider>
     )
 }
 
