@@ -7,3 +7,41 @@ body{
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
 }
+
+.quill-blog {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.write-blog-container .ql-editor {
+    border-radius: 5px;
+    background-color: #f1f2f2;
+    min-height: 19.25em;
+    overflow: auto;
+    font-size: 1.5em; 
+}
+
+.quill-blog .ql-container.ql-snow {
+    border: none;
+    position: relative; 
+    z-index: 0; 
+}
+
+.quill-blog .ql-toolbar.ql-snow {
+    height: 4rem;
+    /* font-size: 2em; */
+    display: flex;
+    align-items: center;
+    position: sticky;
+    bottom: 0; 
+    justify-content: center;
+    z-index: 1; 
+    background-color: white;
+    /* margin-bottom: 5rem; */
+}
+
+.quill-blog .ql-toolbar.ql-snow button {
+    font-size: 4em;
+    height: .40em;
+
+}
