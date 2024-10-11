@@ -23,6 +23,12 @@ const SignupPage = () => {
             .then((response) => {
                 setIsUserLoggedIn(true)
                 setUserProfile(response.data.userData)
+                localStorage.setItem(
+                    'userProfile',
+                    JSON.stringify(response.data.userData)
+                )
+                localStorage.setItem('isUserLoggedIn', 'true')
+
                 alert(`Welcome ${response.data.message}!`)
                 navigate('/')
             })

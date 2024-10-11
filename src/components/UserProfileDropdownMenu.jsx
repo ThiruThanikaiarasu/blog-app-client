@@ -14,7 +14,7 @@ const UserProfileDropdownMenu = ({ isOpen, dropdownRef }) => {
                 if (response.status === 200) {
                     setIsUserLoggedIn(false)
                     setUserProfile(null)
-                    localStorage.removeItem('isLoggedIn')
+                    localStorage.removeItem('isUserLoggedIn')
                     localStorage.removeItem('userProfile')
                     alert('Successfully Logged out')
                     location.reload()

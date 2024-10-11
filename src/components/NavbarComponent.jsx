@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import useUserContext from '../hooks/useUserContext'
 import { NotebookPen } from 'lucide-react'
-import logo from '../assets/img/logo.jpg'
+import logo from '../assets/img/defaultProfilePicture.jpg'
 import UserProfileDropdownMenu from './UserProfileDropdownMenu'
 
 const NavbarComponent = () => {
