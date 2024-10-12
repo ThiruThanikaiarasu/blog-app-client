@@ -9,6 +9,8 @@ import Homepage from '../pages/Homepage'
 import BlogPage from '../pages/BlogPage'
 import BlogWritingComponent from '../components/BlogWritingComponent'
 import BlogDetailsComponent from '../components/BlogDetailsComponent'
+import ProfileLayout from '../layouts/ProfileLayout'
+import UserProfileComponent from '../components/UserProfileComponent'
 
 
 const AppRoute = () => {
@@ -21,6 +23,9 @@ const AppRoute = () => {
                     <Route path="/blog/:slug" element={<BlogPage />} />
                     <Route path="/write" element={<BlogWritingComponent />} />
                     <Route path="/write-details" element={<BlogDetailsComponent />} />
+                    <Route element={<ProfileLayout />}>
+                        <Route path="/profile" element={<UserProfileComponent />} />
+                    </Route>
                 </Route>
 
                 {/* Auth Layout Routes */}
@@ -28,6 +33,8 @@ const AppRoute = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
                 </Route>
+
+                
             </Routes>
         </Router>
     )

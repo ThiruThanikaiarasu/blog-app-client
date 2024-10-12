@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatDistance } from 'date-fns'
 
@@ -11,49 +11,68 @@ const BlogListComponent = React.memo(({ blog }) => {
     const now = new Date()
     const timeAgo = useMemo(() => formatDistance(timestamp, now, { addSuffix: true }), [timestamp, now])
 
+    const [hoveredPost, setHoveredPost] = useState(null)
+
     const handleBlogClick = () => {
         navigate(`/blog/${slug}`, { state: { blogData: blog } })
     }
 
     return (
-        <div
-            className="flex flex-col md:flex-row md:items-start gap-6 p-4 border-b border-gray-200 cursor-pointer transition hover:bg-gray-100"
-            onClick={handleBlogClick}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    handleBlogClick()
-                }
-            }}
+        <article 
+            key={slug} 
+            className="mx-10 bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-102 hover:shadow-lg"
+            style={{boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}
+            onMouseEnter={() => setHoveredPost(slug)}
+            onMouseLeave={() => setHoveredPost(null)}
         >
-            <div className="w-40 max-h-42">
-                <img 
-                    src={image} 
-                    alt={`Image for ${title}`} 
-                    className="rounded-xl w-full h-full object-cover shadow-md hover:shadow-lg transition"
-                    loading="lazy"
-                />
-            </div>
-            
-            <div className="md:w-3/4 w-full">
-                <div className="flex items-center gap-4 mb-2">
-                    <img 
-                        src={author.image} 
-                        alt={`Author: ${author.firstName}`} 
-                        className="w-10 h-10 rounded-full"
-                    />
-                    <div>
-                        <p className="text-sm font-semibold">{author.firstName}</p>
-                        <p className="text-xs text-gray-500">{timeAgo}</p>
+            <div 
+                className="flex flex-col sm:flex-row"
+                onClick={() => handleBlogClick(slug)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                    handleBlogClick(slug)
+                    }
+                }}
+            >
+                <div className="sm:w-1/6 relative">
+                    <div className="w-64 h-48 pb-[56.25%] relative"> {/* This div controls aspect ratio */}
+                        <img
+                            src={image}
+                            alt={`Cover for ${title}`}
+                            className="absolute inset-0 w-full h-full object-contain"
+                            loading="lazy"
+                        />
+                        <div className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${hoveredPost === slug ? 'opacity-100' : 'opacity-0'}`}>
+                            <span className="text-white font-semibold">Read More</span>
+                        </div>
                     </div>
                 </div>
 
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                <div className="sm:w-2/3 p-6">
+                    <div className="flex items-center mb-4">
+                    <img 
+                        src={author.image} 
+                        alt={`Author: ${author.firstName}`} 
+                        className="w-10 h-10 rounded-full mr-4"
+                    />
+                    <div>
+                        <p className="text-sm font-semibold">{author.firstName}</p>
+                        <p className="text-xs text-gray-500">
+                        {timeAgo}
+                        </p>
+                    </div>
+                </div>
+                    <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
                     {title}
-                </h3>
+                    </h2>
+                    <p className="text-gray-600 line-clamp-3">
+                    {blog.description}
+                    </p>
+                </div>
             </div>
-        </div>
+        </article>
     )
 })
 

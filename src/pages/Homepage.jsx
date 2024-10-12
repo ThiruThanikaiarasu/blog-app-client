@@ -11,7 +11,7 @@ const Homepage = () => {
 
     const memoizedBlogList = useMemo(() => {
         return blogPost.map((blog) => (
-            <div key={blog.slug}>
+            <div key={blog.slug} className="my-2">
                 <BlogListComponent blog={blog} />
             </div>
         ))

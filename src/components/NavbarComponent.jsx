@@ -6,7 +6,7 @@ import logo from '../assets/img/defaultProfilePicture.jpg'
 import UserProfileDropdownMenu from './UserProfileDropdownMenu'
 
 const NavbarComponent = () => {
-    const { isUserLoggedIn } = useUserContext()
+    const { isUserLoggedIn, userProfile } = useUserContext()
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef(null)  
 
@@ -57,11 +57,20 @@ const NavbarComponent = () => {
                                 tabIndex="0"
                                 onKeyDown={(e) => e.key === 'Enter' && handleToggle()}
                             >
+                                { userProfile?.image ? 
+                                
+                                    <img 
+                                        src={`http://localhost:3500/api/v1/${userProfile.image}`} 
+                                        alt="Logo"
+                                        className="h-7 w-7 max-h-full max-w-full object-cover rounded-full" 
+                                    />
+                                :
                                 <img 
                                     src={logo} 
                                     alt="Logo"
                                     className="h-auto w-auto max-h-full max-w-full object-contain rounded-full" 
                                 />
+                                    }
                             </div>
                             <UserProfileDropdownMenu 
                                 isOpen={isOpen} 

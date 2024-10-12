@@ -10,10 +10,11 @@ const UserProvider = ({ children }) => {
     const [userProfile, setUserProfile] = useState(
         storedUserProfile ? JSON.parse(storedUserProfile) : null
     )
+    const userImageBasePath = 'http://localhost:3500/api/v1/'
 
     return (
         <UserContext.Provider
-            value={{ isUserLoggedIn, userProfile, setIsUserLoggedIn, setUserProfile }}>
+            value={{ isUserLoggedIn, userProfile, setIsUserLoggedIn, setUserProfile, userImageBasePath }}>
             {children}
         </UserContext.Provider>
     )
