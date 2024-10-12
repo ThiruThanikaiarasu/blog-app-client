@@ -5,6 +5,7 @@ import useUserContext from '../hooks/useUserContext'
 import useForm from '../hooks/useForm'
 import authService from '../api/authService'
 import AuthForm from '../components/AuthForm'
+import toast from 'react-hot-toast'
 
 
 const LoginPage = () => {
@@ -29,21 +30,18 @@ const LoginPage = () => {
                     JSON.stringify(response.data.userData)
                 )
                 localStorage.setItem('isUserLoggedIn', 'true')
-                alert(`Welcome ${response.data.message}!`)
                 navigate('/')
+                toast.success('Logged In Successfully')
             })
             .catch((error) => {
                 if (error.response) {
                     if (error.response.status === 401) {
-                        // setErrors({ apiError: error.response.data.message })
-                        console.log(error)
+                        toast.error(`${error.response.data.message}`)
                     } else if (error.response.status === 500) {
-                        // setErrors({ apiError: 'Something went wrong, try again later' })
-                        console.log(error)
+                        toast.error(`${error.response.data.message}`)
                     }
                 } else {
-                    // setErrors({ apiError: 'Network error, please try again' })
-                    console.log(error)
+                    toast.error(`${error.response.data.message}`)
                 }
             })
 

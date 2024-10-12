@@ -11,12 +11,16 @@ const NestedCommentComponent = ({ slug, comment, isShowingReplyComments, setIsSh
         if(!isShowingReplyComments) {
             blogService.fetchReplyComments( slug, comment._id)
                 .then((response) => {
-                    console.log(response.data)
                     setReplyComments(response.data)
                     
                 })
                 .catch((error) => {
-                    console.log(error.response.data)
+                    if(error.response.status == 500) {
+                        toast.error(`${error.response.data.message}`)
+                    }
+                    else {
+                        toast.error(`${error}`)
+                    }
                 })
         }
     }

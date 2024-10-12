@@ -4,6 +4,7 @@ import ReplyCommentComponent from './ReplyCommentInputComponent'
 import CommentOptionsMenu from './CommentOptionsMenu'
 import NestedCommentComponent from './NestedCommentComponent'
 import blogService from '../api/blogService'
+import toast from 'react-hot-toast'
 
 const CommentSectionComponent = ({ slug, comment }) => {
 
@@ -55,10 +56,13 @@ const CommentSectionComponent = ({ slug, comment }) => {
             })
             .catch((error) => {
                 if(error.response.status == 404) {
-                    alert(`${error.response.data.message}`)
+                    toast.error(`${error.response.data.message}`)
                 }
                 if(error.response.status == 500) {
-                    alert(`${error.response.data.message}`)
+                    toast.error(`${error.response.data.message}`)
+                }
+                else {
+                    toast.error(`${error}`)
                 }
             })
     }

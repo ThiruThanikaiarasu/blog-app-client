@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import CommentSectionComponent from './CommentSectionComponent'
 import blogService from '../api/blogService'
+import toast from 'react-hot-toast'
 
 const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => {
 
@@ -24,10 +25,13 @@ const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => 
             })
             .catch((error) => {
                 if(error.response.status == 404) {
-                    alert(`${error.response.data.message}`)
+                    toast.error(`${error.response.data.message}`)
                 }
                 if(error.response.status == 500) {
-                    alert(`${error.response.data.message}`)
+                    toast.error(`${error.response.data.message}`)
+                }
+                else {
+                    toast.error(`${error}`)
                 }
             })
     }

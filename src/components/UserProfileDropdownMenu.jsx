@@ -2,9 +2,13 @@ import { LogOut, Newspaper, User } from 'lucide-react'
 import React from 'react'
 import useUserContext from '../hooks/useUserContext'
 import authService from '../api/authService'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 const UserProfileDropdownMenu = ({ isOpen, dropdownRef }) => {
+
+    const navigate = useNavigate()
+
     if (!isOpen) return null
 
     const { setIsUserLoggedIn, setUserProfile } = useUserContext()
@@ -17,12 +21,17 @@ const UserProfileDropdownMenu = ({ isOpen, dropdownRef }) => {
                     setUserProfile(null)
                     localStorage.removeItem('isUserLoggedIn')
                     localStorage.removeItem('userProfile')
-                    alert('Successfully Logged out')
-                    location.reload()
+                    navigate('/')
+                    toast.success('Logged out Successfully')                    
                 }
             })
             .catch((error) => {
-                console.log(error)
+                if(error.response.status == 500) {
+                    toast.error(`${error.response.data.message}`)
+                }
+                else {
+                    toast.error(`${error}`)
+                }
             })
     }
 

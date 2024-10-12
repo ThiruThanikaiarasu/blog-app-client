@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import ButtonComponent from './ButtonComponent'
 import blogService from '../api/blogService'
+import toast from 'react-hot-toast'
 
 const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
 
@@ -21,13 +22,16 @@ const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
         blogService.addReplyComment(slug, comment._id, replyText)
             .then((response) => {
                 if (response.status === 201) {
-                    console.log(response.data)
-                    console.log('Comment updated successfully')
                     location.reload()
                 }
             })
             .catch((error) => {
-                alert(`Status: ${error}`)
+                if(error.response.status == 500) {
+                    toast.error(`${error.response.data.message}`)
+                }
+                else {
+                    toast.error(`${error}`)
+                }
             })
     }
 

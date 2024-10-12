@@ -41,21 +41,21 @@ const SignupPage = () => {
                 )
                 localStorage.setItem('isUserLoggedIn', 'true')
 
-                alert(`Welcome ${response.data.message}!`)
                 navigate('/')
+                toast.success(`Account Created Successfully`)
             })
             .catch((error) => {
                 if (error.response) {
                     if(error.response.status === 409) {
-                        console.log(error)
+                        toast.error(`${error.response.data.message}`)
                     }
                     if (error.response.status === 401) {
-                        console.log(error)
+                        toast.error(`${error.response.data.message}`)
                     } else if (error.response.status === 500) {
-                        console.log(error)
+                        toast.error(`${error.response.data.message}`)
                     }
                 } else {
-                    console.log(error)
+                    toast.error(`${error.response.data.message}`)
                 }
             })
 

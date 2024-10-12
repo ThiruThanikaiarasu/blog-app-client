@@ -3,6 +3,7 @@ import axios from 'axios'
 import useBlogContext from '../hooks/useBlogContext'
 import { useNavigate } from 'react-router-dom'
 import ButtonComponent from './ButtonComponent'
+import toast from 'react-hot-toast'
 
 const BlogDetailsComponent = () => {
     const navigate = useNavigate()
@@ -72,12 +73,17 @@ const BlogDetailsComponent = () => {
             )
             .then((response) => {
                 if (response.status === 201) {
-                    alert(`${response.data.message} !`)
                     window.location.href = '/'
+                    toast.success(`${response.data.message}`)
                 }
             })
             .catch((error) => {
-                alert(`${error.response.data.message}`)
+                if(error.response.status == 500) {
+                    toast.error(`${error.response.data.message}`)
+                } 
+                else {
+                    toast.error(`${error}`)
+                }
             })
     }
 

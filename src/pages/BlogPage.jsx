@@ -40,7 +40,10 @@ const BlogPage = () => {
                 }
             })
             .catch((error) => {
-                console.log(error)
+                if(error.response.status == 500) {
+                    toast.error(`${error.response.data.message}`)
+                }
+                toast.error(`${error}`)
             })
     }, [slug])
 
@@ -62,10 +65,10 @@ const BlogPage = () => {
             .catch((error) => {
                 console.log(error.response)
                 if(error.response.status == 400) {
-                    alert(error.response.data.message)
+                    toast.error(`${error.response.data.message}`)
                 }
                 if(error.response.status == 500) {
-                    console.log('Something went wrong try again later')
+                    toast.error(`${error.response.data.message}`)
                 }
             })
             .finally(() => {

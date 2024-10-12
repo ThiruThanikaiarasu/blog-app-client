@@ -3,11 +3,12 @@ import React, { useMemo } from 'react'
 import BlogListComponent from '../components/BlogListComponent'
 import useBlogContext from '../hooks/useBlogContext'
 import useFetchBlogs from '../hooks/useFetchBlogs'
+import LoadingComponent from '../components/LoadingComponent'
 
 const Homepage = () => {
     const { blogPost } = useBlogContext()
 
-    useFetchBlogs()
+    const isLoading = useFetchBlogs()
 
     const memoizedBlogList = useMemo(() => {
         return blogPost.map((blog) => (
@@ -20,7 +21,7 @@ const Homepage = () => {
     return (
         <div>
             <div style={{ marginTop: "20px" }}>
-                {memoizedBlogList}
+                {isLoading ? <LoadingComponent /> : memoizedBlogList}
             </div>
         </div>
     )
