@@ -16,7 +16,7 @@ const FormInputComponent = ({
     return (
         <div className="mb-4">
 
-            <label className="block text-sm font-medium text-gray-700">
+            <label className={`block text-sm font-medium text-gray-700 ${name == 'lastName' ? 'ml-4' : 'ml-0' }`}>
                 {label}
             </label>
 
@@ -24,7 +24,7 @@ const FormInputComponent = ({
                 <InputComponent 
                     type={type === 'password' && showPassword ? 'text' : type}
                     name={name}
-                    className={`mt-1 p-2 w-full border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
+                    className={`mt-1 p-2 w-full border ${name == 'lastName' ? 'ml-4' : 'ml-0' } ${error ? 'border-red-500' : 'border-gray-300'} rounded-md focus:ring-indigo-500 focus:border-indigo-500`}
                     placeholder={`Enter your ${label.toLowerCase()}`}
                     value={value}
                     onChange={onChange}

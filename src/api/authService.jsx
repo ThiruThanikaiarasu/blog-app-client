@@ -7,8 +7,8 @@ const authService = {
         return response
     },
 
-    signup: async ({ firstName, lastName, email, password }) => {
-        const response = await axios.post('http://localhost:3500/api/v1/user/signup', { firstName, lastName, email, password }, {withCredentials: true})
+    signup: async ( data ) => {
+        const response = await axios.post('http://localhost:3500/api/v1/user/signup', data, {withCredentials: true})
         return response
     },
 

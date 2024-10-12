@@ -11,6 +11,7 @@ const SignupPage = () => {
     const { setIsUserLoggedIn, setUserProfile } = useUserContext()
     const navigate = useNavigate()
 
+
     const [showPassword, setShowPassword] = useState(false)
 
     const togglePasswordVisibility = () => {
@@ -18,8 +19,19 @@ const SignupPage = () => {
     }
 
     const onSubmit = async (formData) => {
-
-        authService.signup(formData)
+        
+        const data = new FormData()
+        // Append form fields and file to FormData
+        data.append('firstName', formData.firstName);
+        data.append('lastName', formData.lastName);
+        data.append('email', formData.email);
+        data.append('password', formData.password);
+        data.append('image', formData.image);
+        console.log(data)
+        for (let [key, value] of data.entries()) {
+            console.log(`${key}: ${value}`)
+        }
+        authService.signup(data)
             .then((response) => {
                 setIsUserLoggedIn(true)
                 setUserProfile(response.data.userData)
@@ -38,14 +50,11 @@ const SignupPage = () => {
                         console.log(error)
                     }
                     if (error.response.status === 401) {
-                        // setErrors({ apiError: error.response.data.message })
                         console.log(error)
                     } else if (error.response.status === 500) {
-                        // setErrors({ apiError: 'Something went wrong, try again later' })
                         console.log(error)
                     }
                 } else {
-                    // setErrors({ apiError: 'Network error, please try again' })
                     console.log(error)
                 }
             })
@@ -53,16 +62,16 @@ const SignupPage = () => {
     }
 
     const { formData, errors, handleChange, handleSubmit, setErrors } = useForm(
-        { firstName: '', lastName: '', email: '', password: '' },
+        { firstName: '', lastName: '', email: '', password: '', image: null },
         onSubmit,
         'signup'
     )
 
     return (
         <div className="flex items-center justify-center h-screen">
-            <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+            <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-md">
 
-                <h1 className="text-2xl font-bold text-center mb-6">Sign Up</h1>
+                <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
 
                 <AuthForm
                     formData={formData}
