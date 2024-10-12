@@ -11,7 +11,7 @@ const NavbarComponent = () => {
     const dropdownRef = useRef(null)  
 
     const handleToggle = () => {
-        setIsOpen((prev) => !prev)
+        setIsOpen(!isOpen)
     }
 
     useEffect(() => {
@@ -75,6 +75,7 @@ const NavbarComponent = () => {
                             <UserProfileDropdownMenu 
                                 isOpen={isOpen} 
                                 dropdownRef={dropdownRef}
+                                onClose={() => setIsOpen(false)}
                             />
                         </li>
                     ) : (

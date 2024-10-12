@@ -5,7 +5,7 @@ import authService from '../api/authService'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
-const UserProfileDropdownMenu = ({ isOpen, dropdownRef }) => {
+const UserProfileDropdownMenu = ({ isOpen, dropdownRef, onClose }) => {
 
     const navigate = useNavigate()
 
@@ -35,11 +35,15 @@ const UserProfileDropdownMenu = ({ isOpen, dropdownRef }) => {
             })
     }
 
+    const handleProfileClick = () => {
+        onClose()
+    }
+
     return (
         <div ref={dropdownRef} className="relative z-[100]">
-            <div className="absolute top-9 left-[-175px] w-48 p-2 bg-white shadow-lg border rounded-lg text-black">
+            <div className="absolute top-2 left-[-160px] w-48 p-2 bg-white shadow-lg border rounded-lg text-black">
                 <ul>
-                    <li className="p-2 hover:bg-gray-100 cursor-pointer">
+                    <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleProfileClick}>
                         <Link to="/profile">
                             <div className="flex items-center">
                                 <User size={18} className="mr-3" />

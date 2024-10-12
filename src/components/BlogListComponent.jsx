@@ -37,7 +37,9 @@ const BlogListComponent = React.memo(({ blog }) => {
                 }}
             >
                 <div className="sm:w-1/6 relative">
-                    <div className="w-64 h-48 pb-[56.25%] relative"> {/* This div controls aspect ratio */}
+                    {/* <div className="aspect-w-4 aspect-h-3 relative"> */}
+                    <div className="w-40 h-30 aspect-w-4 aspect-h-3 sm:w-full sm:h-full relative">
+
                         <img
                             src={image}
                             alt={`Cover for ${title}`}
