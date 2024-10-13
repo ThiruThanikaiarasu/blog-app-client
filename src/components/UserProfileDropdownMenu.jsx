@@ -7,11 +7,11 @@ import toast from 'react-hot-toast'
 
 const UserProfileDropdownMenu = ({ isOpen, dropdownRef, onClose }) => {
 
+    const { setIsUserLoggedIn, setUserProfile } = useUserContext()
     const navigate = useNavigate()
 
     if (!isOpen) return null
 
-    const { setIsUserLoggedIn, setUserProfile } = useUserContext()
 
     const handleSignOut = () => {
         authService.logout()

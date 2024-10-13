@@ -5,10 +5,13 @@ import { NotebookPen } from 'lucide-react'
 import logo from '../assets/img/defaultProfilePicture.jpg'
 import UserProfileDropdownMenu from './UserProfileDropdownMenu'
 
+
 const NavbarComponent = () => {
     const { isUserLoggedIn, userProfile } = useUserContext()
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef(null)  
+
+    const imageUrl = `${import.meta.env.VITE_IMAGE_BASE_PATH}${userProfile.image}`
 
     const handleToggle = () => {
         setIsOpen(!isOpen)
@@ -60,7 +63,7 @@ const NavbarComponent = () => {
                                 { userProfile?.image ? 
                                 
                                     <img 
-                                        src={`http://localhost:3500/api/v1/${userProfile.image}`} 
+                                        src={imageUrl} 
                                         alt="Logo"
                                         className="h-7 w-7 max-h-full max-w-full object-cover rounded-full" 
                                     />

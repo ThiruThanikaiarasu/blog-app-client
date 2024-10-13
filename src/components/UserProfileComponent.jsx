@@ -8,11 +8,11 @@ import { Link } from "react-router-dom"
 
 export default function UserProfileComponent() {
 
-    const { userProfile, userImageBasePath, userPosts, setUserPosts, userBookmarkedPosts, setUserBookmarkedPosts } = useUserContext()
+    const { userProfile, userPosts, setUserPosts, userBookmarkedPosts, setUserBookmarkedPosts } = useUserContext()
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const imagePath = userImageBasePath + userProfile.image
+    const imagePath = `${import.meta.env.VITE_IMAGE_BASE_PATH}${userProfile.image}`
     const [activeTab, setActiveTab] = useState("posts")
 
     const user = {

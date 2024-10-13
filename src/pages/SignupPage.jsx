@@ -5,6 +5,7 @@ import useUserContext from '../hooks/useUserContext'
 import useForm from '../hooks/useForm'
 import authService from '../api/authService'
 import AuthForm from '../components/AuthForm'
+import toast from 'react-hot-toast'
 
 
 const SignupPage = () => {
