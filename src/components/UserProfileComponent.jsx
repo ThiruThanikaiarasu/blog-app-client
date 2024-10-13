@@ -4,6 +4,7 @@ import blogService from "../api/blogService"
 import toast from "react-hot-toast"
 import BlogListComponent from './BlogListComponent'
 import LoadingComponent from './LoadingComponent'
+import { Link } from "react-router-dom"
 
 export default function UserProfileComponent() {
 
@@ -42,6 +43,17 @@ export default function UserProfileComponent() {
     }, [])
 
     const memoizedUserPosts = useMemo(() => {
+        if (!userPosts || userPosts.length === 0) {
+            return <p className="text-center text-gray-500">
+                You haven't added any posts yet.{' '}
+                    <Link to="/write">
+                        <span className="text-blue-500">
+                            Click here 
+                        </span>
+                    </Link> 
+                    {' '}to create your first post!
+            </p>;
+        }
         return userPosts.map((post) => (
             <div key={post.slug} className="my-2">
                 <BlogListComponent blog={post} isUsersPost={true} />
@@ -50,6 +62,17 @@ export default function UserProfileComponent() {
     }, [userPosts])
 
     const memoizedUserBookmarkedPosts = useMemo(() => {
+        if (!userPosts || userPosts.length === 0) {
+            return <p className="text-center text-gray-500">
+                You haven't saved any posts yet.{' '}
+                    <Link to="/">
+                        <span className="text-blue-500">
+                            Click here 
+                        </span>
+                    </Link> 
+                    {' '}to explore first!
+            </p>;
+        }
         return userBookmarkedPosts.map((post) => (
             <div key={post.slug} className="my-2">
                 <BlogListComponent blog={post.blog} />
