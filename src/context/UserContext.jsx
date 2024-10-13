@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 
 const UserContext = createContext()
 
@@ -12,9 +12,12 @@ const UserProvider = ({ children }) => {
     )
     const userImageBasePath = 'http://localhost:3500/api/v1/'
 
+    const [userPosts, setUserPosts] = useState([])
+    const [userBookmarkedPosts, setUserBookmarkedPosts] = useState([])
+
     return (
         <UserContext.Provider
-            value={{ isUserLoggedIn, userProfile, setIsUserLoggedIn, setUserProfile, userImageBasePath }}>
+            value={{ isUserLoggedIn, userProfile, setIsUserLoggedIn, setUserProfile, userImageBasePath, userPosts, setUserPosts, userBookmarkedPosts, setUserBookmarkedPosts }}>
             {children}
         </UserContext.Provider>
     )

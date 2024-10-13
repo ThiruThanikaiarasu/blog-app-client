@@ -47,6 +47,12 @@ const blogService = {
         const response = await axios.post(`http://localhost:3500/api/v1/blog/${slug}/getReplyComments`, { parentComment }, { withCredentials: true })
 
         return response
+    },
+
+    fetchUserPostsAndBookmarks: async () => {
+        const response = await axios.get(`http://localhost:3500/api/v1/user/posts`, {withCredentials: true})
+
+        return response
     }
 }
 

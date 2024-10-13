@@ -1,33 +1,65 @@
-import { useState } from "react"
-import { BookmarkIcon, MessageSquareIcon, ThumbsUpIcon, UserIcon } from "lucide-react"
+import { useEffect, useMemo, useState } from "react"
 import useUserContext from "../hooks/useUserContext"
+import blogService from "../api/blogService"
+import toast from "react-hot-toast"
+import BlogListComponent from './BlogListComponent'
+import LoadingComponent from './LoadingComponent'
 
 export default function UserProfileComponent() {
 
-    const { userProfile, userImageBasePath } = useUserContext()
+    const { userProfile, userImageBasePath, userPosts, setUserPosts, userBookmarkedPosts, setUserBookmarkedPosts } = useUserContext()
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const imagePath = userImageBasePath + userProfile.image
-    console.log(imagePath)
     const [activeTab, setActiveTab] = useState("posts")
 
     const user = {
-        name: "Jane Doe",
-        username: "@janedoe",
         bio: "Passionate blogger | Tech enthusiast | Coffee lover",
-        avatar: "/placeholder.svg?height=100&width=100",
     }
 
-    const posts = [
-        { id: 1, title: "10 Tips for Better Productivity", likes: 24, comments: 5 },
-        { id: 2, title: "The Future of AI in Everyday Life", likes: 32, comments: 8 },
-        { id: 3, title: "How to Start a Successful Blog", likes: 18, comments: 3 },
-    ]
+    useEffect(() => {
+        setIsLoading(true)
+        blogService.fetchUserPostsAndBookmarks()
+            .then((response) => {
+                if(response.status == 200) {
+                    setUserPosts(response.data.userPosts)
+                    setUserBookmarkedPosts(response.data.userBookmarks)
+                    console.log(response.data.userBookmarks)
+                }
+            })
+            .catch((error) => {
+                if(error.response.status == 500) {
+                    toast.error(`${error.response.data.message}`)
+                }
+                else {
+                    toast.error(`${error}`)
+                }
+            })
+            .finally(()=> {
+                setIsLoading(false)
+            })
+    }, [])
 
-    const savedCollections = [
-        { id: 1, title: "Must-Read Tech Articles", itemCount: 15 },
-        { id: 2, title: "Favorite Recipes", itemCount: 8 },
-        { id: 3, title: "Travel Inspiration", itemCount: 12 },
-    ]
+    const memoizedUserPosts = useMemo(() => {
+        return userPosts.map((post) => (
+            <div key={post.slug} className="my-2">
+                <BlogListComponent blog={post} isUsersPost={true} />
+            </div>
+        ))
+    }, [userPosts])
+
+    const memoizedUserBookmarkedPosts = useMemo(() => {
+        return userBookmarkedPosts.map((post) => (
+            <div key={post.slug} className="my-2">
+                <BlogListComponent blog={post.blog} />
+            </div>
+        ))
+    }, [userBookmarkedPosts])
+
+    if(isLoading) {
+        return <LoadingComponent />
+    }
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -35,7 +67,7 @@ export default function UserProfileComponent() {
                 <div className="flex flex-col items-center sm:flex-row sm:items-start">
                 <img
                     src={imagePath}
-                    alt={user.name}
+                    alt={`${userProfile}'s Profile picture`}
                     className="w-24 h-24 rounded-full mb-4 sm:mb-0 sm:mr-6"
                 />
                 <div className="text-center sm:text-left">
@@ -72,35 +104,11 @@ export default function UserProfileComponent() {
             </div>
 
             {activeTab === "posts" && (
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post) => (
-                    <div key={post.id} className="bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-xl font-semibold mb-4">{post.title}</h2>
-                    <div className="flex justify-between text-gray-600">
-                        <span className="flex items-center">
-                        <ThumbsUpIcon className="mr-1 h-4 w-4" /> {post.likes} likes
-                        </span>
-                        <span className="flex items-center">
-                        <MessageSquareIcon className="mr-1 h-4 w-4" /> {post.comments} comments
-                        </span>
-                    </div>
-                    </div>
-                ))}
-                </div>
+                memoizedUserPosts
             )}
 
             {activeTab === "saved" && (
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {savedCollections.map((collection) => (
-                    <div key={collection.id} className="bg-white rounded-lg shadow-md p-6">
-                    <h2 className="text-xl font-semibold mb-2">{collection.title}</h2>
-                    <p className="text-gray-600 mb-4">{collection.itemCount} items</p>
-                    <button className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300 flex items-center justify-center">
-                        <BookmarkIcon className="mr-2 h-4 w-4" /> View Collection
-                    </button>
-                    </div>
-                ))}
-                </div>
+                memoizedUserBookmarkedPosts
             )}
         </div>
     )

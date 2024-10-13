@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { formatDistance } from 'date-fns'
 
-const BlogListComponent = React.memo(({ blog }) => {
+const BlogListComponent = React.memo(({ blog, isUsersPost }) => {
     const navigate = useNavigate()
     const { slug, title, createdAt, image, author } = blog
 
@@ -38,7 +38,7 @@ const BlogListComponent = React.memo(({ blog }) => {
             >
                 <div className="sm:w-1/6 relative">
                     {/* <div className="aspect-w-4 aspect-h-3 relative"> */}
-                    <div className="w-40 h-30 aspect-w-4 aspect-h-3 sm:w-full sm:h-full relative">
+                    <div className="w-40 h-30 aspect-w-4 aspect-h-3 sm:w-full sm:h-full relative border-r border-black border-opacity-10">
 
                         <img
                             src={image}
@@ -53,19 +53,31 @@ const BlogListComponent = React.memo(({ blog }) => {
                 </div>
 
                 <div className="sm:w-2/3 p-6">
+                {isUsersPost 
+                    ?
                     <div className="flex items-center mb-4">
-                    <img 
-                        src={author.image} 
-                        alt={`Author: ${author.firstName}`} 
-                        className="w-10 h-10 rounded-full mr-4"
-                    />
-                    <div>
-                        <p className="text-sm font-semibold">{author.firstName}</p>
-                        <p className="text-xs text-gray-500">
-                        {timeAgo}
-                        </p>
+                        <div>
+                            <p className="text-xs text-gray-500">
+                            Published: {timeAgo}
+                            </p>
+                        </div>
                     </div>
-                </div>
+                    :
+                        <div className="flex items-center mb-4">
+                            <img 
+                                src={author.image} 
+                                alt={`Author: ${author.firstName}`} 
+                                className="w-10 h-10 rounded-full mr-4"
+                            />
+                            <div>
+                                <p className="text-sm font-semibold">{author.firstName}</p>
+                                <p className="text-xs text-gray-500">
+                                {timeAgo}
+                                </p>
+                            </div>
+                        </div>
+                }
+                    
                     <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
                     {title}
                     </h2>
