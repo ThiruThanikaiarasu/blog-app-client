@@ -33,7 +33,6 @@ const BlogPage = () => {
             blogService.fetchBlogDetails(slug)
             .then((response) => {
                 if(response.status == 200) {
-                    console.log(response.data.likeDetails[0])
                     setIsUserLiked(response.data.likeDetails[0].isUserLiked)
                     setLikesCount(response.data.likeDetails[0].likesCount)
                     setIsBookmarked(response.data.likeDetails[0].userBookmarked)
@@ -64,7 +63,6 @@ const BlogPage = () => {
                 }
             })
             .catch((error) => {
-                console.log(error.response)
                 if(error.response.status == 400) {
                     toast.error(`${error.response.data.message}`)
                 }
@@ -94,7 +92,7 @@ const BlogPage = () => {
             toast.error('Failed to copy URL!', {
                 position: 'top-center',
             });
-            console.error('Error copying URL:', err);
+            toast.error('Error copying URL:', err);
         });
     }
 

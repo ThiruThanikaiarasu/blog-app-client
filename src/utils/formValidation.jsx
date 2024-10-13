@@ -49,7 +49,6 @@ const validateSignupForm = ({ firstName, lastName, email, password, image }) => 
     validateEmail(email, errors)
     validatePassword(password, errors)
     validateImage(image, errors)
-    console.log(errors.image)
 
     return errors
 }

@@ -27,7 +27,6 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
                 }
             })
             .catch((error) => {
-                console.log(error.response)
                 if(error.response.status == 400) {
                     toast.error(`${error.response.data.message}`)
                 }

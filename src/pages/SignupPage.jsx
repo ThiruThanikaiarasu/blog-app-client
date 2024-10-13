@@ -27,10 +27,7 @@ const SignupPage = () => {
         data.append('email', formData.email);
         data.append('password', formData.password);
         data.append('image', formData.image);
-        console.log(data)
-        for (let [key, value] of data.entries()) {
-            console.log(`${key}: ${value}`)
-        }
+
         authService.signup(data)
             .then((response) => {
                 setIsUserLoggedIn(true)

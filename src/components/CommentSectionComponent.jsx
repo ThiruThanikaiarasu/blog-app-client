@@ -46,7 +46,6 @@ const CommentSectionComponent = ({ slug, comment }) => {
     }
 
     const handleCommentEditSave = () => {
-        console.log(comment._id)
         blogService.editComment(slug, replyText, comment._id)
             .then((response) => {
                 if(response.status == 200) {

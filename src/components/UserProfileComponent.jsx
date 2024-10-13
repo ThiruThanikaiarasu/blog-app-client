@@ -26,7 +26,6 @@ export default function UserProfileComponent() {
                 if(response.status == 200) {
                     setUserPosts(response.data.userPosts)
                     setUserBookmarkedPosts(response.data.userBookmarks)
-                    console.log(response.data.userBookmarks)
                 }
             })
             .catch((error) => {
