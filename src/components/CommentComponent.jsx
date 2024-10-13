@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import CommentSectionComponent from './CommentSectionComponent'
 import blogService from '../api/blogService'
 import toast from 'react-hot-toast'
+import useUserContext from '../hooks/useUserContext'
 
 const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => {
+
+    const { isUserLoggedIn } = useUserContext()
 
     const [commentText, setCommentText] = useState('')
 
@@ -36,6 +39,18 @@ const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => 
             })
     }
 
+    const handleComment = () => {
+        if (!isUserLoggedIn) {
+            toast.error('Please login to share your thoughts', {
+                position: "top-center"
+            })
+            return
+        }
+        if (!isLikeLoading) {
+            handleCommentPost()
+        }
+    }
+
     return (
         <React.Fragment>
             <div className="mt-10 border-t border-gray-300" ref={commentSectionRef}>
@@ -58,7 +73,7 @@ const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => 
                     </button>
                     <button
                         className={`text-sm px-4 py-2 rounded-full text-white ${commentText.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-                        onClick={handleCommentPost}
+                        onClick={handleComment}
                         disabled={commentText.length === 0}
                     >
                         Comment

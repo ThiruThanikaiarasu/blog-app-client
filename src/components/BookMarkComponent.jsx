@@ -2,8 +2,11 @@ import { Bookmark, BookmarkPlus } from 'lucide-react'
 import React, { useState } from 'react'
 import blogService from '../api/blogService'
 import toast from 'react-hot-toast'
+import useUserContext from '../hooks/useUserContext'
 
 const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
+
+    const { isUserLoggedIn } = useUserContext()
 
     const [isBookMarkLoading, setIsBookMarkLoading] = useState(false)
 
@@ -41,19 +44,31 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
 
     }
 
+    const handleClick = () => {
+        if (!isUserLoggedIn) {
+            toast.error('Please login to add bookmark', {
+                position: "top-center"
+            })
+            return
+        }
+        if (!isLikeLoading) {
+            handleToggleBookmark()
+        }
+    }
+
     return (
         <React.Fragment>
             {
                 isBookmarked 
                     ?
                         <Bookmark
-                            onClick={!isBookMarkLoading ? handleToggleBookmark : null}
+                            onClick={handleClick}
                             fill='black'
                             cursor='pointer'
                         />
                     :
                         <BookmarkPlus
-                            onClick={!isBookMarkLoading ? handleToggleBookmark : null}
+                            onClick={handleClick}
                             cursor='pointer'
                         />
             }

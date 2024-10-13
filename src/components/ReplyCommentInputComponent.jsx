@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import ButtonComponent from './ButtonComponent'
 import blogService from '../api/blogService'
 import toast from 'react-hot-toast'
+import useUserContext from '../hooks/useUserContext'
 
 const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
 
+    const { isUserLoggedIn } = useUserContext()
     const [replyText, setReplyText] = useState('')
 
     const handleReplyText = (event) => {
@@ -35,6 +37,18 @@ const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
             })
     }
 
+    const handleReply = () => {
+        if (!isUserLoggedIn) {
+            toast.error('Please login to share you thoughts', {
+                position: "top-center"
+            })
+            return
+        }
+        if (!isLikeLoading) {
+            handleReplySubmit()
+        }
+    }
+
     return (
         <div className="mt-2">
             <div className="flex flex-col">
@@ -57,7 +71,7 @@ const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
 
                 <ButtonComponent
                     className={`text-sm px-4 py-2 rounded-full text-white ${replyText.length === 0 ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
-                    onClick={handleReplySubmit}
+                    onClick={handleReply}
                     disabled={replyText.length === 0}
                 >
                     Reply

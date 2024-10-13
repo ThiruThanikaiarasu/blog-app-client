@@ -7,6 +7,7 @@ import axios from 'axios'
 import blogService from '../api/blogService'
 import BookMarkComponent from '../components/BookMarkComponent'
 import CommentComponent from '../components/CommentComponent'
+import toast from 'react-hot-toast'
 
 const BlogPage = () => {
 
@@ -83,6 +84,20 @@ const BlogPage = () => {
           })
     }
 
+    const handleShareClick = () => {
+        const currentUrl = window.location.href; // Get the current URL
+    navigator.clipboard.writeText(currentUrl)
+        .then(() => {
+            toast.success('URL copied to clipboard!');
+        })
+        .catch((err) => {
+            toast.error('Failed to copy URL!', {
+                position: 'top-center',
+            });
+            console.error('Error copying URL:', err);
+        });
+    }
+
     return (
         <div
             className="flex justify-center"
@@ -132,8 +147,10 @@ const BlogPage = () => {
                                 isBookmarked={isBookmarked}
                                 setIsBookmarked={setIsBookmarked}
                             />
-   
-                            <Share2 />
+
+                            <div onClick={handleShareClick}>
+                                <Share2 />
+                            </div>
                         </div>
                     </div>
 
