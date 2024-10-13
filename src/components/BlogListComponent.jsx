@@ -38,7 +38,7 @@ const BlogListComponent = React.memo(({ blog, isUsersPost }) => {
             >
                 <div className="sm:w-1/6 relative">
                     {/* <div className="aspect-w-4 aspect-h-3 relative"> */}
-                    <div className="w-40 h-30 aspect-w-4 aspect-h-3 sm:w-full sm:h-full relative border-r border-black border-opacity-10">
+                    <div className="w-full h-30 aspect-w-4 aspect-h-3 sm:w-full sm:h-full relative border-r border-black border-opacity-10">
 
                         <img
                             src={image}
