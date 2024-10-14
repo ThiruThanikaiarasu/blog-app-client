@@ -117,7 +117,7 @@ const BlogPage = () => {
                 <div className="w-full mt-12">
                     
                     <div className="">
-                        <h1 className="text-3xl font-bold">{blogData.title}</h1>
+                        <h1 className="text-3xl font-bold capitalize">{blogData.title}</h1>
                         <h5 className="text-gray-500 mt-2 text-lg">{blogData.description}</h5>
                     </div>
 
@@ -159,7 +159,7 @@ const BlogPage = () => {
                                 setIsBookmarked={setIsBookmarked}
                             />
 
-                            <div onClick={handleShareClick}>
+                            <div onClick={handleShareClick} className="cursor-pointer">
                                 <Share2 />
                             </div>
                         </div>
@@ -167,7 +167,7 @@ const BlogPage = () => {
 
                     
                     <div className="mt-10 flex justify-center">
-                        <img src={blogData.image} className="max-w-4xl lg:max-w-4xl object-contain" />
+                        <img src={blogData.image} className="max-w-full w-full h-auto object-contain lg:max-w-4xl" />
                     </div>
 
                     

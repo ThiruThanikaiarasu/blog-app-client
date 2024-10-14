@@ -58,7 +58,7 @@ const NavbarComponent = () => {
                     <li
                         className="mr-4"
                     >
-                        <div className="text-lg flex items-center" onClick={handleWriteClick}>
+                        <div className="text-lg flex items-center cursor-pointer select-none" onClick={handleWriteClick}>
                             <NotebookPen className="mr-2" size={20}/> Write
                         </div>
                     </li>

@@ -78,7 +78,7 @@ const BlogListComponent = React.memo(({ blog, isUsersPost }) => {
                         </div>
                 }
                     
-                    <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                    <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 capitalize">
                     {title}
                     </h2>
                     <p className="text-gray-600 line-clamp-3">

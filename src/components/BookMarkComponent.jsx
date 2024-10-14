@@ -60,7 +60,7 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
             })
             return
         }
-        else {
+        if(!isBookMarkLoading) {
             handleToggleBookmark()
         }
     }
