@@ -5,8 +5,12 @@ import CommentOptionsMenu from './CommentOptionsMenu'
 import NestedCommentComponent from './NestedCommentComponent'
 import blogService from '../api/blogService'
 import toast from 'react-hot-toast'
+import removeLocalStorage from '../utils/removeLocalStorage'
+import { useNavigate } from 'react-router-dom'
 
 const CommentSectionComponent = ({ slug, comment }) => {
+
+    const navigate = useNavigate()
 
     const [replyText, setReplyText] = useState('')
     const [isReplying, setIsReplying] = useState(false)
@@ -54,6 +58,11 @@ const CommentSectionComponent = ({ slug, comment }) => {
                 }
             })
             .catch((error) => {
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 404) {
                     toast.error(`${error.response.data.message}`)
                 }

@@ -3,8 +3,12 @@ import React, { useState } from 'react'
 import blogService from '../api/blogService'
 import toast from 'react-hot-toast'
 import useUserContext from '../hooks/useUserContext'
+import removeLocalStorage from '../utils/removeLocalStorage'
+import { useNavigate } from 'react-router-dom'
 
 const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
+
+    const navigate = useNavigate()
 
     const { isUserLoggedIn } = useUserContext()
 
@@ -28,6 +32,11 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
                 }
             })
             .catch((error) => {
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 400) {
                     toast.error(`${error.response.data.message}`)
                 }

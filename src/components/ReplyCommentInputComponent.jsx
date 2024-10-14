@@ -3,8 +3,12 @@ import ButtonComponent from './ButtonComponent'
 import blogService from '../api/blogService'
 import toast from 'react-hot-toast'
 import useUserContext from '../hooks/useUserContext'
+import { useNavigate } from 'react-router-dom'
+import removeLocalStorage from '../utils/removeLocalStorage'
 
 const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
+
+    const navigate = useNavigate()
 
     const { isUserLoggedIn } = useUserContext()
     const [replyText, setReplyText] = useState('')
@@ -28,6 +32,11 @@ const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
                 }
             })
             .catch((error) => {
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 500) {
                     toast.error(`${error.response.data.message}`)
                 }

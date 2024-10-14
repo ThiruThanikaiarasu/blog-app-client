@@ -4,6 +4,7 @@ import useUserContext from '../hooks/useUserContext'
 import authService from '../api/authService'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
+import removeLocalStorage from '../utils/removeLocalStorage'
 
 const UserProfileDropdownMenu = ({ isOpen, dropdownRef, onClose }) => {
 
@@ -26,6 +27,11 @@ const UserProfileDropdownMenu = ({ isOpen, dropdownRef, onClose }) => {
                 }
             })
             .catch((error) => {
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 500) {
                     toast.error(`${error.response.data.message}`)
                 }

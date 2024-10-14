@@ -4,15 +4,17 @@ import blogService from "../api/blogService"
 import toast from "react-hot-toast"
 import BlogListComponent from './BlogListComponent'
 import LoadingComponent from './LoadingComponent'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import removeLocalStorage from "../utils/removeLocalStorage"
 
 export default function UserProfileComponent() {
+
+    const navigate = useNavigate()
 
     const { userProfile, userPosts, setUserPosts, userBookmarkedPosts, setUserBookmarkedPosts } = useUserContext()
 
     const [isLoading, setIsLoading] = useState(false)
 
-    const imagePath = `${import.meta.env.VITE_IMAGE_BASE_PATH}${userProfile.image}`
     const [activeTab, setActiveTab] = useState("posts")
 
     const user = {
@@ -29,6 +31,11 @@ export default function UserProfileComponent() {
                 }
             })
             .catch((error) => {
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 500) {
                     toast.error(`${error.response.data.message}`)
                 }
@@ -61,7 +68,7 @@ export default function UserProfileComponent() {
     }, [userPosts])
 
     const memoizedUserBookmarkedPosts = useMemo(() => {
-        if (!userPosts || userPosts.length === 0) {
+        if (!userBookmarkedPosts || userBookmarkedPosts.length === 0) {
             return <p className="text-center text-gray-500">
                 You haven't saved any posts yet.{' '}
                     <Link to="/">

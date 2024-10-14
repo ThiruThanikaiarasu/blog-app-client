@@ -2,8 +2,12 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import React from 'react'
 import ButtonComponent from './ButtonComponent'
 import blogService from '../api/blogService'
+import removeLocalStorage from '../utils/removeLocalStorage'
+import { useNavigate } from 'react-router-dom'
 
 const NestedCommentComponent = ({ slug, comment, isShowingReplyComments, setIsShowingReplyComments, replyComments, setReplyComments }) => {
+
+    const navigate = useNavigate()
 
     const handleShowReplyCommentSubmit = () => {
         setIsShowingReplyComments(!isShowingReplyComments)
@@ -15,6 +19,11 @@ const NestedCommentComponent = ({ slug, comment, isShowingReplyComments, setIsSh
                     
                 })
                 .catch((error) => {
+                    if(error.response.status == 401) {
+                        removeLocalStorage()
+                        navigate('/login')
+                        toast.error('Session Expired, Login Again to continue.')
+                    }
                     if(error.response.status == 500) {
                         toast.error(`${error.response.data.message}`)
                     }

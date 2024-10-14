@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { MessageCircle, Share2 } from 'lucide-react'
 import LikeComponent from '../components/LikeComponent'
@@ -8,8 +8,11 @@ import blogService from '../api/blogService'
 import BookMarkComponent from '../components/BookMarkComponent'
 import CommentComponent from '../components/CommentComponent'
 import toast from 'react-hot-toast'
+import removeLocalStorage from '../utils/removeLocalStorage'
 
 const BlogPage = () => {
+
+    const navigate = useNavigate()
 
     const location = useLocation()
     const blogData = location.state?.blogData 
@@ -40,6 +43,11 @@ const BlogPage = () => {
                 }
             })
             .catch((error) => {
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 500) {
                     toast.error(`${error.response.data.message}`)
                 }
@@ -63,6 +71,11 @@ const BlogPage = () => {
                 }
             })
             .catch((error) => {
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 400) {
                     toast.error(`${error.response.data.message}`)
                 }

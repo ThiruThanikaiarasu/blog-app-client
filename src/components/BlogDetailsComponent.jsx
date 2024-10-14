@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import ButtonComponent from './ButtonComponent'
 import toast from 'react-hot-toast'
 import blogService from '../api/blogService'
+import removeLocalStorage from '../utils/removeLocalStorage'
 
 const BlogDetailsComponent = () => {
     const navigate = useNavigate()
@@ -76,6 +77,11 @@ const BlogDetailsComponent = () => {
             })
             .catch((error) => {
                 console.log(error.response.data)
+                if(error.response.status == 401) {
+                    removeLocalStorage()
+                    navigate('/login')
+                    toast.error('Session Expired, Login Again to continue.')
+                }
                 if(error.response.status == 500) {
                     toast.error(`${error.response.data.message}`)
                 } 
