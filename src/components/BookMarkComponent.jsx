@@ -16,6 +16,7 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
         const newBookmarkStatus = !isBookmarked
 
         blogService.updateBookmarkStatus(slug, newBookmarkStatus)
+            setIsBookMarkLoading(true)
             .then((response) => {
                 if(response.status == 201) {
                     setIsBookmarked(true)
@@ -50,7 +51,7 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
             })
             return
         }
-        if (!isLikeLoading) {
+        else {
             handleToggleBookmark()
         }
     }

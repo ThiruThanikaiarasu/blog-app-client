@@ -46,7 +46,7 @@ const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => 
             })
             return
         }
-        if (!isLikeLoading) {
+        else {
             handleCommentPost()
         }
     }

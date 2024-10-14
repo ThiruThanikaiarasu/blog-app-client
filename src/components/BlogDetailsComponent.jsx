@@ -4,6 +4,7 @@ import useBlogContext from '../hooks/useBlogContext'
 import { useNavigate } from 'react-router-dom'
 import ButtonComponent from './ButtonComponent'
 import toast from 'react-hot-toast'
+import blogService from '../api/blogService'
 
 const BlogDetailsComponent = () => {
     const navigate = useNavigate()
@@ -65,19 +66,16 @@ const BlogDetailsComponent = () => {
         formData.append('blogContent', blogData.blogContent);
         formData.append('image', blogData.image);
 
-        axios
-            .post(
-                `http://localhost:3500/api/v1/blog/addBlog`,
-                formData,
-                { withCredentials: true }
-            )
+        blogService.addBlogPost(formData)
             .then((response) => {
+                console.log(response.data)
                 if (response.status === 201) {
                     window.location.href = '/'
                     toast.success(`${response.data.message}`)
                 }
             })
             .catch((error) => {
+                console.log(error.response.data)
                 if(error.response.status == 500) {
                     toast.error(`${error.response.data.message}`)
                 } 

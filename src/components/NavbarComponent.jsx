@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useUserContext from '../hooks/useUserContext'
 import { NotebookPen } from 'lucide-react'
 import logo from '../assets/img/defaultProfilePicture.jpg'
 import UserProfileDropdownMenu from './UserProfileDropdownMenu'
+import toast from 'react-hot-toast'
 
 
 const NavbarComponent = () => {
-    const { isUserLoggedIn, userProfile } = useUserContext()
-    const [isOpen, setIsOpen] = useState(false)
+    
     const dropdownRef = useRef(null)  
 
-    const imageUrl = `${import.meta.env.VITE_IMAGE_BASE_PATH}${userProfile.image}`
+    const navigate = useNavigate()
+    
+    const { isUserLoggedIn, userProfile } = useUserContext()
+    const [isOpen, setIsOpen] = useState(false)
 
     const handleToggle = () => {
         setIsOpen(!isOpen)
@@ -35,6 +38,16 @@ const NavbarComponent = () => {
         }
     }, [isOpen])
 
+    const handleWriteClick = () => {
+        if (!isUserLoggedIn) {
+            toast.error("Please login to write Blog Post.", {
+                position: "top-center"
+            });
+        } else {
+            navigate('/write');  
+        }
+    }
+
     return (
         <nav className="w-full bg-gray-800 text-white flex justify-between p-4">
             <div className="flex items-center">
@@ -45,9 +58,9 @@ const NavbarComponent = () => {
                     <li
                         className="mr-4"
                     >
-                        <Link className="text-lg flex items-center" to="/write">
+                        <div className="text-lg flex items-center" onClick={handleWriteClick}>
                             <NotebookPen className="mr-2" size={20}/> Write
-                        </Link>
+                        </div>
                     </li>
                     {isUserLoggedIn ? (
                         <li className="relative">
@@ -63,7 +76,7 @@ const NavbarComponent = () => {
                                 { userProfile?.image ? 
                                 
                                     <img 
-                                        src={imageUrl} 
+                                        src={userProfile.image} 
                                         alt="Logo"
                                         className="h-7 w-7 max-h-full max-w-full object-cover rounded-full" 
                                     />

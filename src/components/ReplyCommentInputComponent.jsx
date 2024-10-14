@@ -44,7 +44,7 @@ const ReplyCommentComponent = ({ slug, comment, setIsReplying }) => {
             })
             return
         }
-        if (!isLikeLoading) {
+        else {
             handleReplySubmit()
         }
     }

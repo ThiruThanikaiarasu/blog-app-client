@@ -1,6 +1,12 @@
 import axiosInstance from "../utils/axiosInstance"
 
 const blogService = {
+    addBlogPost: async (formData) => {
+        const response = await axiosInstance.post('/blog/addBlog', formData)
+
+        return response
+    },
+
     fetchBlogPosts: async () => {
         const response = await axiosInstance.get('/blog/getPosts')
 

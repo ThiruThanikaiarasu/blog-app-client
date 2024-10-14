@@ -43,7 +43,7 @@ const BlogListComponent = React.memo(({ blog, isUsersPost }) => {
                         <img
                             src={image}
                             alt={`Cover for ${title}`}
-                            className="absolute inset-0 w-full h-full object-contain"
+                            className="absolute inset-0 w-full h-full object-cover"
                             loading="lazy"
                         />
                         <div className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${hoveredPost === slug ? 'opacity-100' : 'opacity-0'}`}>

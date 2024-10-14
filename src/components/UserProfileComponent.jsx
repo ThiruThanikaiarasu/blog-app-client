@@ -53,8 +53,8 @@ export default function UserProfileComponent() {
                     {' '}to create your first post!
             </p>;
         }
-        return userPosts.map((post) => (
-            <div key={post.slug} className="my-2">
+        return userPosts.map((post, index) => (
+            <div key={`${post.slug}-${index}`} className="my-2">
                 <BlogListComponent blog={post} isUsersPost={true} />
             </div>
         ))
@@ -72,8 +72,8 @@ export default function UserProfileComponent() {
                     {' '}to explore first!
             </p>;
         }
-        return userBookmarkedPosts.map((post) => (
-            <div key={post.slug} className="my-2">
+        return userBookmarkedPosts.map((post, index) => (
+            <div key={`${post.slug}-${index}`} className="my-2">
                 <BlogListComponent blog={post.blog} />
             </div>
         ))
@@ -88,7 +88,7 @@ export default function UserProfileComponent() {
             <div className="bg-white rounded-lg shadow-md p-6 mb-8">
                 <div className="flex flex-col items-center sm:flex-row sm:items-start">
                 <img
-                    src={imagePath}
+                    src={userProfile.image}
                     alt={`${userProfile}'s Profile picture`}
                     className="w-24 h-24 rounded-full mb-4 sm:mb-0 sm:mr-6"
                 />
