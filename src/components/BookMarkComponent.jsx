@@ -20,8 +20,8 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
         const newBookmarkStatus = !isBookmarked
 
         blogService.updateBookmarkStatus(slug, newBookmarkStatus)
-            setIsBookMarkLoading(true)
             .then((response) => {
+                console.log(response.status)
                 if(response.status == 201) {
                     setIsBookmarked(true)
                     toast.success(`${response.data.message}`)
@@ -38,9 +38,6 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
                     toast.error('Session Expired, Login Again to continue.')
                 }
                 if(error.response.status == 400) {
-                    toast.error(`${error.response.data.message}`)
-                }
-                if(error.response.status == 500) {
                     toast.error(`${error.response.data.message}`)
                 }
                 else {
@@ -60,7 +57,8 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
             })
             return
         }
-        if(!isBookMarkLoading) {
+        else {
+            setIsBookMarkLoading(true)
             handleToggleBookmark()
         }
     }

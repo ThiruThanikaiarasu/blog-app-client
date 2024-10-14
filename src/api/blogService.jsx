@@ -13,8 +13,14 @@ const blogService = {
         return response
     },
 
-    fetchBlogDetails: async ( slug ) => {
+    fetchBlogDetailsBySlug: async ( slug ) => {
         const response = await axiosInstance.get(`/blog/${slug}`)
+
+        return response
+    },
+
+    fetchBlogDetails: async ( slug ) => {
+        const response = await axiosInstance.get(`/blog/${slug}/details`)
 
         return response
     },
