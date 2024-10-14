@@ -37,7 +37,6 @@ const BlogPage = () => {
         if(!blogData) {
             blogService.fetchBlogDetailsBySlug(slug)
                 .then((response) => {
-                    console.log(response.data)
                     if(response.status == 200) {
                         const data = response.data
                         setBlogData({
@@ -72,7 +71,6 @@ const BlogPage = () => {
         } else {
             blogService.fetchBlogDetails(slug)
             .then((response) => {
-                console.log(response)
                 if(response.status == 200) {
                     setIsUserLiked(response.data.likeDetails[0].isUserLiked)
                     setLikesCount(response.data.likeDetails[0].likesCount)

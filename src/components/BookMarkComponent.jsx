@@ -21,7 +21,6 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
 
         blogService.updateBookmarkStatus(slug, newBookmarkStatus)
             .then((response) => {
-                console.log(response.status)
                 if(response.status == 201) {
                     setIsBookmarked(true)
                     toast.success(`${response.data.message}`)

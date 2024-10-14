@@ -69,14 +69,12 @@ const BlogDetailsComponent = () => {
 
         blogService.addBlogPost(formData)
             .then((response) => {
-                console.log(response.data)
                 if (response.status === 201) {
                     window.location.href = '/'
                     toast.success(`${response.data.message}`)
                 }
             })
             .catch((error) => {
-                console.log(error.response.data)
                 if(error.response.status == 401) {
                     removeLocalStorage()
                     navigate('/login')

@@ -43,7 +43,6 @@ const SignupPage = () => {
                 toast.success(`Account Created Successfully`)
             })
             .catch((error) => {
-                console.log(error.message)
                 if (error.response) {
                     if(error.response.status === 409) {
                         toast.error(`${error.response.data.message}`)
