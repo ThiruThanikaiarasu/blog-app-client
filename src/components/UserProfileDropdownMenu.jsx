@@ -58,13 +58,6 @@ const UserProfileDropdownMenu = ({ isOpen, dropdownRef, onClose }) => {
                         </Link>
                     </li>
 
-                    <li className="p-2 hover:bg-gray-100 cursor-pointer">
-                        <div className="flex items-center">
-                            <Newspaper size={18} className="mr-3" />
-                            <span>My Posts</span>
-                        </div>
-                    </li>
-
                     <li 
                         className="p-2 hover:bg-gray-100 cursor-pointer"
                         onClick={handleSignOut}
