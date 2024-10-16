@@ -30,7 +30,7 @@ const LikeComponent = ({ isUserLiked, likesCount, isLikeLoading, handleLikeClick
                title={!isUserLoggedIn ? 'Login to like the post' : ''}
             />
             <span
-                className="select-none cursor-pointer"
+                className="select-none cursor-pointer w-4"
             >
                 {likesCount}
             </span>

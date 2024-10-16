@@ -204,7 +204,7 @@ const BlogPage = () => {
 
                         
                         <div className="mt-8 flex justify-between border-t border-b border-gray-300 py-4">
-                            <div className="flex space-x-6">
+                            <div className="flex space-x-3">
                                 <div className="flex items-center space-x-2">
                                     <LikeComponent 
                                         isUserLiked={isUserLiked}
