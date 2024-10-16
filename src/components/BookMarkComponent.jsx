@@ -17,30 +17,37 @@ const BookMarkComponent = ({ slug, isBookmarked, setIsBookmarked }) => {
     const handleToggleBookmark = () => {
         setIsBookMarkLoading(true)
 
+        const previousBookmarkStatus = isBookmarked
         const newBookmarkStatus = !isBookmarked
+
+        setIsBookmarked(newBookmarkStatus)
 
         blogService.updateBookmarkStatus(slug, newBookmarkStatus)
             .then((response) => {
                 if(response.status == 201) {
-                    setIsBookmarked(true)
+                    // setIsBookmarked(true)
                     toast.success(`${response.data.message}`)
                 }
                 if(response.status == 200) {
-                    setIsBookmarked(false)
+                    // setIsBookmarked(false)
                     toast.success(`${response.data.message}`)
                 }
             })
             .catch((error) => {
-                if(error.response.status == 401) {
-                    removeLocalStorage()
-                    navigate('/login')
-                    toast.error('Session Expired, Login Again to continue.')
-                }
-                if(error.response.status == 400) {
-                    toast.error(`${error.response.data.message}`)
-                }
-                else {
-                    toast.error(`${error}`)
+                setIsBookmarked(previousBookmarkStatus)
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        removeLocalStorage()
+                        navigate('/login')
+                        toast.error('Session Expired, Login Again to continue.')
+                    } else if (error.response.status === 400) {
+                        toast.error(`${error.response.data.message}`)
+                    } else {
+                        toast.error(`An error occurred: ${error.response.status}`)
+                    }
+                } else {
+                    toast.error('Network error. Please check your connection and try again.')
                 }
             })
             .finally(() => {

@@ -31,19 +31,28 @@ const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => 
                 }
             })
             .catch((error) => {
-                if(error.response.status == 401) {
-                    removeLocalStorage()
-                    navigate('/login')
-                    toast.error('Session Expired, Login Again to continue.')
+                if(error.response) {
+                    if(error.response.status == 401) {
+                        removeLocalStorage()
+                        navigate('/login')
+                        toast.error('Session Expired, Login Again to continue.')
+                    }
+                    if(error.response.status == 404) {
+                        toast.error(`${error.response.data.message}`)
+                    }
+                    if(error.response.status == 500) {
+                        toast.error(`${error.response.data.message}`)
+                    }
+                    else {
+                        toast.error(`${error}`)
+                    }
                 }
-                if(error.response.status == 404) {
-                    toast.error(`${error.response.data.message}`)
-                }
-                if(error.response.status == 500) {
-                    toast.error(`${error.response.data.message}`)
+                if (error.request) {
+                    // The request was made but no response was received
+                    toast.error('Network error. Please check your connection and try again.')
                 }
                 else {
-                    toast.error(`${error}`)
+                    toast.error('Network error. Please check your connection and try again.')
                 }
             })
     }

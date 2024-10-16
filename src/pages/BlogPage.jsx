@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { MessageCircle, Share2 } from 'lucide-react'
+import { Link, MessageCircle, Share2 } from 'lucide-react'
 import LikeComponent from '../components/LikeComponent'
 import blogService from '../api/blogService'
 import BookMarkComponent from '../components/BookMarkComponent'
@@ -57,12 +57,18 @@ const BlogPage = () => {
                     }
                 })
                 .catch((error) => {
-                    if(error.response.status == 404) {
-                        navigate('/')
-                        toast.error(`${error.response.data.message}`)
+                    if(error.response) {
+                        if(error.response.status == 404) {
+                            navigate('/')
+                            toast.error(`${error.response.data.message}`)
+                        }
+                        if(error.response.status == 500) {
+                            toast.error(`${error.response.data.message}`)
+                        }
                     }
-                    if(error.response.status == 500) {
-                        toast.error(`${error.response.data.message}`)
+                    else {
+                        navigate('/')
+                        toast.error('Network error. Please check your connection and try again.')
                     }
                 })
                 .finally(() => {
@@ -79,17 +85,22 @@ const BlogPage = () => {
                 }
             })
             .catch((error) => {
-                if(error.response.status == 401) {
-                    removeLocalStorage()
-                    navigate('/login')
-                    toast.error('Session Expired, Login Again to continue.')
+                if(error.response) {
+                    if(error.response.status == 401) {
+                        removeLocalStorage()
+                        navigate('/login')
+                        toast.error('Session Expired, Login Again to continue.')
+                    }
+                    if(error.response.status == 404) {
+                        navigate('/')
+                        toast.error(`${error.response.data.message}`)
+                    }
+                    if(error.response.status == 500) {
+                        toast.error(`${error.response.data.message}`)
+                    }
                 }
-                if(error.response.status == 404) {
-                    navigate('/')
-                    toast.error(`${error.response.data.message}`)
-                }
-                if(error.response.status == 500) {
-                    toast.error(`${error.response.data.message}`)
+                else {
+                    toast.error('Network error. Please check your connection and try again.')
                 }
             })
             .finally(()=> {
@@ -102,30 +113,39 @@ const BlogPage = () => {
     
     const handleLikeClick = () => {
         setIsLikeLoading(true)
+        const previousLikedStatus = isUserLiked
+        const previousLikesCount = likesCount
         const newLikedStatus = !isUserLiked
+
+        setIsUserLiked(newLikedStatus)
+        setLikesCount(prev => newLikedStatus ? prev + 1 : prev - 1)
+
         
         blogService.updateLikeStatus(slug, newLikedStatus)
             .then((response) => {
                 if(response.status == 201) {
-                    setIsUserLiked(true)
-                    setLikesCount(prev => prev + 1)
+                    // setIsUserLiked(true)
+                    // setLikesCount(prev => prev + 1)
                 }
                 if(response.status == 200) {
-                    setIsUserLiked(false)
-                    setLikesCount(prev => prev - 1)
+                    // setIsUserLiked(false)
+                    // setLikesCount(prev => prev - 1)
                 }
             })
             .catch((error) => {
-                if(error.response.status == 401) {
-                    removeLocalStorage()
-                    navigate('/login')
-                    toast.error('Session Expired, Login Again to continue.')
-                }
-                if(error.response.status == 400) {
-                    toast.error(`${error.response.data.message}`)
-                }
-                if(error.response.status == 500) {
-                    toast.error(`${error.response.data.message}`)
+                setIsUserLiked(previousLikedStatus)
+                setLikesCount(previousLikesCount)
+
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        removeLocalStorage()
+                        navigate('/login')
+                        toast.error('Session Expired, Login Again to continue.')
+                    } else if (error.response.status === 400 || error.response.status === 500) {
+                        toast.error(`${error.response.data.message}`)
+                    }
+                } else {
+                    toast.error('Network error. Please check your connection and try again.')
                 }
             })
             .finally(() => {
@@ -201,16 +221,17 @@ const BlogPage = () => {
                                     </span>
                                 </div>
                             </div>
-                            <div className="flex space-x-6">
+                            <div className="flex space-x-6" title="Add Bookmark">
 
                                 <BookMarkComponent 
                                     slug={slug}
                                     isBookmarked={isBookmarked}
                                     setIsBookmarked={setIsBookmarked}
+                                    title="Add Bookmark"
                                 />
 
-                                <div onClick={handleShareClick} className="cursor-pointer">
-                                    <Share2 />
+                                <div onClick={handleShareClick} className="cursor-pointer" title='Copy Link'>
+                                    <Link size={22} title="Copy Link"/>
                                 </div>
                             </div>
                         </div>

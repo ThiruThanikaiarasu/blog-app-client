@@ -21,15 +21,20 @@ const useFetchBlogs = () => {
                     setBlogPost(response.data.data)
                 }
             } catch (error) {
-                if(error.response.status == 401) {
-                    removeLocalStorage()
-                    navigate('/login')
-                    toast.error('Session Expired, Login Again to continue.')
+                if(error.response) {
+                    if(error.response.status == 401) {
+                        removeLocalStorage()
+                        navigate('/login')
+                        toast.error('Session Expired, Login Again to continue.')
+                    }
+                    if (error.response && error.response.status === 500) {
+                        toast.error(`${error.response.data.message}`)
+                    } else {
+                        toast.error(`${error.message || "An error occurred"}`)
+                    }
                 }
-                if (error.response && error.response.status === 500) {
-                    toast.error(`${error.response.data.message}`)
-                } else {
-                    toast.error(`${error.message || "An error occurred"}`)
+                else  {
+                    toast.error('Network error. Please check your connection and try again.')
                 }
             } finally {
                 setIsLoading(false) 
