@@ -1,5 +1,5 @@
 import { ArrowRight, Clock } from 'lucide-react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useBlogContext from '../hooks/useBlogContext'
 import blogService from '../api/blogService'
@@ -11,6 +11,8 @@ const HeroPage = () => {
 
     const {homeMainFeed, setHomeMainFeed, homeFeed, setHomeFeed} = useBlogContext()
 
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         blogService.fetchHomeFeed()
             .then((response) => {
@@ -18,6 +20,7 @@ const HeroPage = () => {
                 const [mainFeed, ...remainingFeed] = data  
                 setHomeMainFeed(mainFeed)  
                 setHomeFeed(remainingFeed) 
+                setLoading(false)
             })
             .catch((error) => {
                 console.log(error)
@@ -64,51 +67,47 @@ const HeroPage = () => {
             
             
             <div className="w-full bg-white py-12 sm:py-16 md:py-20 lg:py-24">
-                {homeMainFeed && 
+                {loading ? (
+                    <div className="w-full flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0">
+                        <div className="w-[100%] sm:w-[100%] md:w-[94%] lg:w-[94%] xl:w-[94%] rounded-xl bg-gray-300 animate-pulse h-72"></div>
+                        <div className="w-full px-4 xl:px-4 lg:px-4 sm:px-6 md:px-8 pt-8 xl:pt-4 lg:pt-4 sm:pt-8 md:pt-8 py-1">
+                            <div className="w-32 h-6 bg-gray-300 animate-pulse rounded-md mb-2"></div>
+                            <div className="w-full h-[40px] sm:h-[40px] md:h-[50px] lg:h-[70px] xl:h-[70px] bg-gray-300 animate-pulse rounded-md mb-2 "></div>
+                            <div className="w-3/4 h-8 bg-gray-300 animate-pulse rounded-md mb-4"></div>
+                            <div className="w-1/2 h-6 bg-gray-300 animate-pulse rounded-md"></div>
+                        </div>
+                    </div>
+                ) : (
                     <div className="w-full flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0 cursor-pointer" onClick={handleBlogClick}>
-                            <img
-                                className='w-full sm:w-full md:w-[48%] lg:w-[48%] xl:w-[48%] rounded-xl'
-                                src={homeMainFeed.image}
-                                alt="John Wick: Chapter 4 poster"
-                                layout="fill"
-                                objectFit="cover"
-                            />
-
-                        <div className="px-4 xl:px-4 lg:px-4 sm:px-6 md:px-8 pt-8 xl:pt-4 lg:pt-4 sm:pt-8 md:pt-8 py-1">
-
+                        <img
+                            className='w-full sm:w-full md:w-[48%] lg:w-[48%] xl:w-[48%] rounded-xl'
+                            src={homeMainFeed.image}
+                            alt={homeMainFeed.title}
+                        />
+                        <div className="px-6 xl:px-8 lg:px-8 sm:px-6 md:px-8 pt-8 xl:pt-4 lg:pt-4 sm:pt-8 md:pt-8 py-1">
                             <div className="flex items-center space-x-2 text-sm text-gray-500">
-                            <div className="hidden xl:inline lg:inline md:inline sm:inline">
-                                <div className="flex items-center space-x-1">
-                                    <div className="h-8 w-8 rounded-full mr-1">
-                                        <img
-                                        src={homeMainFeed.author.image}
-                                        alt={`Author Profile`}
-                                        width={20}
-                                        height={20}
-                                        className="h-8 rounded-full w-full object-cover" 
-                                        />
+                                <div className="hidden xl:inline lg:inline md:inline sm:inline">
+                                    <div className="flex items-center space-x-1">
+                                        <div className="h-8 w-8 rounded-full mr-1">
+                                            <img
+                                                src={homeMainFeed.author.image}
+                                                alt={`Author Profile`}
+                                                className="h-8 rounded-full w-full object-cover" 
+                                            />
+                                        </div>
+                                        <span className="font-medium text-lg">{homeMainFeed.author.firstName}</span>
                                     </div>
-                                    <span className="font-medium text-lg">{homeMainFeed.author.firstName}</span>
                                 </div>
-                            </div>
-                            <span className="hidden xl:inline lg:inline md:hidden sm:inline">•</span>
-                            <span 
-                                className="text-lg hidden xl:inline lg:inline md:hidden sm:inline"
-                            >
-                                12 minutes ago
-                            </span>
+                                <span className="hidden xl:inline lg:inline md:hidden sm:inline">•</span>
+                                <span className="text-lg hidden xl:inline lg:inline md:hidden sm:inline">12 minutes ago</span>
                             </div>
 
-                            <h2 
-                                className="mt-0 xl:mt-6 lg:mt-6 md:mt-6 sm:mt-6 font-semibold text-gray-900 text-2xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-5xl leading-[2.5rem] xl:leading-[3.5rem] lg:leading-[3.5rem] md:leading-[3rem] sm:leading-[2.5rem]"
-                            >
+                            <h2 className="mt-0 xl:mt-6 lg:mt-6 md:mt-6 sm:mt-6 font-semibold text-gray-900 text-2xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-5xl leading-[2.5rem] xl:leading-[3.5rem] lg:leading-[3.5rem] md:leading-[3rem] sm:leading-[2.5rem]">
                                 {homeMainFeed.title}
                             </h2>
-
                             <p className="mt-6 font-medium text-gray-600 leading-normal text-lg sm:text-lg md:text-xl lg:text-2xl xl:text-2xl">
                                 {homeMainFeed.description}
                             </p>
-
                             <div className="mt-6 flex items-center space-x-4 text-gray-500 text-md sm:text-md md:text-lg lg:text-lg xl:text-lg">
                                 <span className="font-medium text-red-600">{homeMainFeed.tag}</span>
                                 <div className="flex items-center space-x-1">
@@ -117,9 +116,8 @@ const HeroPage = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                } 
+                )}
 
                 <div className="space-y-6 px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0 mt-12">
                     <div className="flex items-center justify-between">
