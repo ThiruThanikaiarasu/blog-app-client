@@ -47,8 +47,8 @@ const NavbarComponent = () => {
     }
 
     return (
-            <header className="border-b border-gray-200 bg-white">
-                <div className="px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0">
+            <header className="fixed flex justify-center top-0 left-0 w-full z-50 border-b border-gray-200 bg-white">
+                <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex items-center">
                             <Link to="/" className="text-2xl font-bold text-red-500">

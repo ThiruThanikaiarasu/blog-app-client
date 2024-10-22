@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import LoadingComponent from '../components/LoadingComponent'
 import HeroPage from '../pages/HeroPage'
+import ScrollToTop from '../components/ScrollToTop'
 
 const LoginPage = lazy(() => import('../pages/LoginPage'))
 const SignupPage = lazy(() => import('../pages/SignupPage'))
@@ -17,6 +18,7 @@ const UserProfileComponent = lazy(() => import('../components/UserProfileCompone
 const AppRoute = () => {
     return (
         <Router>
+            <ScrollToTop />
             <Suspense fallback={<LoadingComponent />}>
                 <Routes>
                     {/* Main Layout Routes */}
