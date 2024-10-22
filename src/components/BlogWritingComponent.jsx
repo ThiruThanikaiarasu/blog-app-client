@@ -12,6 +12,7 @@ const BlogWritingComponent = () => {
     const { blogData, setBlogData } = useBlogContext()
     const [ title, setTitle ] = useState(blogData?.title)
     const [blogContent, setBlogContent] = useState(blogData?.blogContent)
+    const [errors, setErrors] = useState({})
 
     const toolbarOptions = [
         ["bold", "italic", "underline"],
@@ -29,20 +30,40 @@ const BlogWritingComponent = () => {
 
         quill.on('text-change', () => {
             setBlogContent(quill.root.innerHTML)
+            if(blogContent.trim()) {
+                setErrors(prevErrors => ({ ...prevErrors, blogContent: ""}))
+            }
         })
     }, [])
 
     const handleBlogTitleChange = (event) => {
         setTitle(event.target.value)
+
+        if(title.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, title: ""}))
+        }
     }
 
     const handlePublish = () => {
+        if(!validate()) {
+            return
+        }
         setBlogData(prevValue => ({
             ...prevValue,
             title,
             blogContent
         }))
         navigate("/write-details")
+    }
+
+    const validate = () => {
+        const newErrors = {}
+        if(!title.trim()) newErrors.title = "Title is required"
+
+        if(!blogContent.trim()) newErrors.blogContent = "Content is required"
+
+        setErrors(newErrors)
+        return Object.keys(newErrors).length == 0
     }
 
     return (
@@ -62,11 +83,13 @@ const BlogWritingComponent = () => {
                     placeholder="Title"
                     value={title}
                     onChange={handleBlogTitleChange}
-                    className="w-full py-3 px-4 mb-2 bg-gray-200 text-2xl rounded-md focus:outline-none"
+                    className={`w-full py-3 px-4 mb-2 bg-gray-200 text-2xl rounded-md focus:outline-none ${errors.title ? 'border border-red-500' : ''}`}
                 ></InputComponent>
+                {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
             </div>
+            {errors.blogContent && <p className="text-red-500 text-sm">{errors.blogContent}</p>}
             <div className="quill-blog">
-                <div className="write-blog-container" ref={wrapperRef}></div>
+                <div className={`write-blog-container`} ref={wrapperRef}></div>
             </div>
         </div>
     )

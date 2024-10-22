@@ -97,7 +97,7 @@ export default function UserProfileComponent() {
                 <img
                     src={userProfile.image}
                     alt={`${userProfile}'s Profile picture`}
-                    className="w-24 h-24 rounded-full mb-4 sm:mb-0 sm:mr-6"
+                    className="w-24 h-24 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6"
                 />
                 <div className="text-center sm:text-left">
                     <h1 className="text-2xl font-bold">{userProfile.firstName}</h1>

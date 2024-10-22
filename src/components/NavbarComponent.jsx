@@ -1,24 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import { Bell, PenSquare } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import useUserContext from '../hooks/useUserContext'
-import { NotebookPen } from 'lucide-react'
-import logo from '../assets/img/defaultProfilePicture.jpg'
-import UserProfileDropdownMenu from './UserProfileDropdownMenu'
 import toast from 'react-hot-toast'
-
+import UserProfileDropdownMenu from './UserProfileDropdownMenu'
 
 const NavbarComponent = () => {
-    
+
     const dropdownRef = useRef(null)  
 
     const navigate = useNavigate()
-    
+
     const { isUserLoggedIn, userProfile } = useUserContext()
     const [isOpen, setIsOpen] = useState(false)
-
-    const handleToggle = () => {
-        setIsOpen(!isOpen)
-    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -38,6 +32,10 @@ const NavbarComponent = () => {
         }
     }, [isOpen])
 
+    const handleToggle = () => {
+        setIsOpen(!isOpen)
+    }
+
     const handleWriteClick = () => {
         if (!isUserLoggedIn) {
             toast.error("Please login to write Blog Post.", {
@@ -49,59 +47,61 @@ const NavbarComponent = () => {
     }
 
     return (
-        <nav className="w-full bg-gray-800 text-white flex justify-between p-4">
-            <div className="flex items-center">
-                <Link className="text-xl" to="/">Home</Link>
-            </div>
-            <div className="flex items-center">
-                <ul className="flex space-x-4">
-                    <li
-                        className="mr-4"
-                    >
-                        <div className="text-lg flex items-center cursor-pointer select-none" onClick={handleWriteClick}>
-                            <NotebookPen className="mr-2" size={20}/> Write
+            <header className="border-b border-gray-200 bg-white">
+                <div className="px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0">
+                    <div className="flex h-16 items-center justify-between">
+                        <div className="flex items-center">
+                            <Link to="/" className="text-2xl font-bold text-red-500">
+                            Jotify
+                            </Link>
                         </div>
-                    </li>
-                    {isUserLoggedIn ? (
-                        <li className="relative">
-                            <div 
-                                className="text-lg flex items-center cursor-pointer h-7 w-7 mr-6"
-                                onClick={handleToggle}
-                                aria-expanded={isOpen}
-                                aria-haspopup="true"
-                                role="button"
-                                tabIndex="0"
-                                onKeyDown={(e) => e.key === 'Enter' && handleToggle()}
+                        
+                        <div className="flex items-center space-x-4 ">
+                            <button
+                                className="flex items-center mr-4"
+                                aria-label="Write"
+                                onClick={handleWriteClick}
                             >
-                                { userProfile?.image ? 
-                                
+                                <span
+                                    className="rounded-full bg-gray-100 mr-2 p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-900"
+                                >
+                                    <PenSquare className="h-5 w-5" />
+                                </span>
+                                <span 
+                                    className="ml-0"
+                                >
+                                    Write
+                                </span>
+                            </button>
+
+                            <button 
+                                className="rounded-full bg-gray-300 p-1" aria-label="User profile"
+                                onClick={handleToggle}
+                            >
+
+                                { userProfile.image ? 
                                     <img 
                                         src={userProfile.image} 
                                         alt="Logo"
                                         className="h-7 w-7 max-h-full max-w-full object-cover rounded-full" 
                                     />
                                 :
-                                <img 
-                                    src={logo} 
-                                    alt="Logo"
-                                    className="h-auto w-auto max-h-full max-w-full object-contain rounded-full" 
+                                    <img 
+                                        src={userProfile.image} 
+                                        alt="Logo"
+                                        className="h-auto w-auto max-h-full max-w-full object-contain rounded-full" 
+                                    />
+                                }
+                                <UserProfileDropdownMenu
+                                    isOpen={isOpen} 
+                                    dropdownRef={dropdownRef}
+                                    onClose={() => setIsOpen(false)}
                                 />
-                                    }
-                            </div>
-                            <UserProfileDropdownMenu 
-                                isOpen={isOpen} 
-                                dropdownRef={dropdownRef}
-                                onClose={() => setIsOpen(false)}
-                            />
-                        </li>
-                    ) : (
-                        <li>
-                            <Link className="text-lg" to="/login">Login</Link>
-                        </li>
-                    )}
-                </ul>
-            </div>
-        </nav>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
     )
 }
 

@@ -7,6 +7,12 @@ const blogService = {
         return response
     },
 
+    fetchHomeFeed: async () => {
+        const response = await axiosInstance.get('/blog/feed')
+
+        return response
+    },
+
     fetchBlogPosts: async () => {
         const response = await axiosInstance.get('/blog/getPosts')
 

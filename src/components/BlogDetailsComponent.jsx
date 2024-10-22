@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import axios from 'axios'
 import useBlogContext from '../hooks/useBlogContext'
 import { useNavigate } from 'react-router-dom'
 import ButtonComponent from './ButtonComponent'
@@ -12,8 +11,10 @@ const BlogDetailsComponent = () => {
     const fileInputRef = useRef()
     const { blogData, setBlogData } = useBlogContext()
     const [description, setDescription] = useState(blogData.description || "")
+    const [tag, setTag] = useState(blogData.tag || "")
     const [image, setImage] = useState(blogData.image || null)
-    const [errors, setErrors] = useState({}) // Error state to track validation errors
+    const [errors, setErrors] = useState({}) 
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleImageBoxClick = () => {
         fileInputRef.current.click()
@@ -49,9 +50,27 @@ const BlogDetailsComponent = () => {
         }
     }
 
+    const handleTag = (event) => {
+        const tag = event.target.value
+        setTag(tag.trim())
+        setBlogData(prevValue => ({
+            ...prevValue,
+            tag
+        }))
+
+        if(tag.trim()) {
+            setErrors(prevErrors => ({ ...prevErrors, tag: "" }))
+        }
+    }
+
     const validate = () => {
         const newErrors = {}
         if (!description.trim()) newErrors.description = "Description is required"
+        if (!tag.trim()) {
+            newErrors.tag = "Tag is required"
+        } else if (/\s/.test(tag.trim())) {
+            newErrors.tag = "Tag must be a single word"
+        }
         if (!image) newErrors.image = "Image is required"
 
         setErrors(newErrors)
@@ -61,11 +80,14 @@ const BlogDetailsComponent = () => {
     const handlePublish = () => {
         if (!validate()) return 
 
-        const formData = new FormData();
-        formData.append('title', blogData.title);
-        formData.append('description', blogData.description);
-        formData.append('blogContent', blogData.blogContent);
-        formData.append('image', blogData.image);
+        setIsLoading(true)
+
+        const formData = new FormData()
+        formData.append('title', blogData.title)
+        formData.append('description', blogData.description)
+        formData.append('blogContent', blogData.blogContent)
+        formData.append('tag', blogData.tag)
+        formData.append('image', blogData.image)
 
         blogService.addBlogPost(formData)
             .then((response) => {
@@ -86,6 +108,9 @@ const BlogDetailsComponent = () => {
                 else {
                     toast.error(`${error}`)
                 }
+            })
+            .finally(() => {
+                setIsLoading(false)
             })
     }
 
@@ -135,15 +160,32 @@ const BlogDetailsComponent = () => {
                     />
                     {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
                     <p className="mt-2 text-sm"><span className="font-semibold">Note:</span> A well-written description can help readers choose your post.</p>
+
+                    <h3 className="text-xl font-semibold mt-12">Description</h3>
+                    <input
+                        className={`w-full mt-4 mb-1 h-6 bg-gray-200 p-4 rounded-md border-none focus:outline-none focus:ring-2 focus:ring-green-500 ${errors.tag ? 'border border-red-500' : ''}`}
+                        placeholder="Tag: Tech"
+                        value={tag}
+                        onChange={handleTag}
+                    />
+                    {errors.tag && <p className="text-red-500 text-sm">{errors.tag}</p>}
+                    <p className="mt-2 text-sm"><span className="font-semibold">Note:</span> A well-written description can help readers choose your post.</p>
                     
                     <div className="mt-12">
-                        <ButtonComponent 
-                            onClick={handlePublish} className="bg-green-600 text-white py-2 px-8 rounded-full"
+                        <ButtonComponent
+                            onClick={isLoading ? null : handlePublish}
+                            className={`py-2 px-8 rounded-full 
+                                ${isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 cursor-pointer'} 
+                                text-white`}
+                            disabled={isLoading}
                         >
-                            Publish Now
+                            {isLoading ? 'Publishing...' : 'Publish Now'}
                         </ButtonComponent>
-                        <p className="mt-2 text-sm"><a href="#" className="underline">Learn more</a> about what happens when you publish.</p>
+                        <p className="mt-2 text-sm">
+                            <a href="#" className="underline">Learn more</a> about what happens when you publish.
+                        </p>
                     </div>
+
                 </div>
             </div>
         </div>
