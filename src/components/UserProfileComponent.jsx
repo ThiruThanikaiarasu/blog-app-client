@@ -71,7 +71,7 @@ export default function UserProfileComponent() {
         if (!userBookmarkedPosts || userBookmarkedPosts.length === 0) {
             return <p className="text-center text-gray-500">
                 You haven't saved any posts yet.{' '}
-                    <Link to="/">
+                    <Link to="/blog">
                         <span className="text-blue-500">
                             Click here 
                         </span>

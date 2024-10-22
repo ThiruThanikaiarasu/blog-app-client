@@ -8,7 +8,7 @@ const MainLayout = () => {
     return (
         <React.Fragment>
             <NavbarComponent />
-            <div className="mt-16">
+            <div className="mt-20">
                 <Outlet />
             </div>
         </React.Fragment>

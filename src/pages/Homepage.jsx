@@ -11,16 +11,16 @@ const Homepage = () => {
     const isLoading = useFetchBlogs()
 
     const memoizedBlogList = useMemo(() => {
-        return blogPost.map((blog) => (
-            <div key={blog.slug} className="my-2">
+        return blogPost.map((blog, index) => (
+            <div key={blog.slug} className={`w-full max-w-[1024px] md:max-w[450px] my-6 ${index === blogPost.length - 1 ? '' : 'border-b-2'}`}>
                 <BlogListComponent blog={blog} />
             </div>
         ))
     }, [blogPost])
 
     return (
-        <div>
-            <div style={{ marginTop: "20px" }}>
+        <div className="mt-24 flex justify-center items-center w-full">
+            <div className="w-full flex flex-col justify-center items-center">
                 {isLoading ? <LoadingComponent /> : memoizedBlogList}
             </div>
         </div>

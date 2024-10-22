@@ -1,4 +1,4 @@
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
 import { Bell, PenSquare } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import useUserContext from '../hooks/useUserContext'
@@ -10,6 +10,10 @@ const NavbarComponent = () => {
     const dropdownRef = useRef(null)  
 
     const navigate = useNavigate()
+
+    const location = useLocation()
+
+    const linkToDestination = location.pathname === '/blog' ? '/' : '/blog'
 
     const { isUserLoggedIn, userProfile } = useUserContext()
     const [isOpen, setIsOpen] = useState(false)
@@ -46,12 +50,16 @@ const NavbarComponent = () => {
         }
     }
 
+    const handleLoginClick = () => {
+        navigate('/login')
+    }
+
     return (
             <header className="fixed flex justify-center top-0 left-0 w-full z-50 border-b border-gray-200 bg-white">
                 <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex items-center">
-                            <Link to="/" className="text-2xl font-bold text-red-500">
+                            <Link to={linkToDestination} className="text-2xl font-bold text-red-500">
                             Jotify
                             </Link>
                         </div>
@@ -74,30 +82,36 @@ const NavbarComponent = () => {
                                 </span>
                             </button>
 
-                            <button 
-                                className="rounded-full bg-gray-300 p-1" aria-label="User profile"
-                                onClick={handleToggle}
-                            >
+                            
 
-                                { userProfile.image ? 
-                                    <img 
-                                        src={userProfile.image} 
-                                        alt="Logo"
-                                        className="h-7 w-7 max-h-full max-w-full object-cover rounded-full" 
-                                    />
-                                :
-                                    <img 
-                                        src={userProfile.image} 
-                                        alt="Logo"
-                                        className="h-auto w-auto max-h-full max-w-full object-contain rounded-full" 
-                                    />
-                                }
-                                <UserProfileDropdownMenu
+                                {userProfile?.image ? 
+                                <div>
+                                    <button 
+                                        className="rounded-full bg-gray-300 p-1" aria-label="User profile"
+                                        onClick={handleToggle}
+                                    >
+                                        <img 
+                                            src={userProfile.image} 
+                                            alt="Logo"
+                                            className="h-7 w-7 max-h-full max-w-full object-cover rounded-full" 
+                                        />
+                                    </button>
+                                    <UserProfileDropdownMenu
                                     isOpen={isOpen} 
                                     dropdownRef={dropdownRef}
                                     onClose={() => setIsOpen(false)}
+                                    
                                 />
-                            </button>
+                                </div>
+                                :
+                                    <p 
+                                        className="cursor-pointer py-2" 
+                                        onClick={handleLoginClick}
+                                    >
+                                        Login
+                                    </p>
+                                }
+                                
                         </div>
                     </div>
                 </div>

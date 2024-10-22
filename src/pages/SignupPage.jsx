@@ -67,7 +67,7 @@ const SignupPage = () => {
 
     return (
         <div className="flex items-center justify-center h-screen">
-            <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-md">
+            <div className="w-full max-w-xl bg-white p-8 rounded-lg border">
 
                 <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
 
@@ -83,7 +83,7 @@ const SignupPage = () => {
 
                 <p className="text-center text-sm text-gray-600">
                     Already have an account? 
-                    <Link to="/login" className="text-indigo-600 hover:underline"> Login here!</Link>
+                    <Link to="/login" className="text-red-500 hover:underline"> Login here!</Link>
                 </p>
 
             </div>

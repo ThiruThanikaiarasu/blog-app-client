@@ -98,7 +98,7 @@ const AuthForm = ({
             <div className="mb-4">
                 <ButtonComponent
                     type="submit"
-                    className="w-full py-2 px-4 bg-indigo-600 text-white font-bold rounded-md hover:bg-indigo-700"
+                    className="w-full py-2 px-4 bg-red-500 text-white font-bold rounded-md hover:bg-red-600"
                 >
                     {formType === 'signup' ? 'Sign Up' : 'Login'}
                 </ButtonComponent>

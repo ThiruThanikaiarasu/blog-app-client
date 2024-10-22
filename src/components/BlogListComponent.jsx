@@ -1,92 +1,170 @@
-import React, { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import React, { useMemo, useState } from 'react'
+// import { useNavigate } from 'react-router-dom'
+// import { formatDistance } from 'date-fns'
+
+// const BlogListComponent = React.memo(({ blog, isUsersPost }) => {
+//     const navigate = useNavigate()
+//     const { slug, title, createdAt, image, author } = blog
+
+//     const createdAtDate = useMemo(() => createdAt.split('T')[0], [createdAt])
+//     const timestamp = useMemo(() => new Date(createdAt), [createdAt])
+//     const now = new Date()
+//     const timeAgo = useMemo(() => {
+//         const distance = formatDistance(timestamp, now, { addSuffix: true })
+//         return distance.replace('about ', '')
+//     }, [timestamp, now])
+
+//     const [hoveredPost, setHoveredPost] = useState(null)
+
+//     const handleBlogClick = () => {
+//         navigate(`/blog/${slug}`, { state: { blogData: blog } })
+//     }
+
+//     return (
+//         <div
+//             className="flex justify-center items-center cursor-pointer"
+//             onClick={handleBlogClick}
+//         >
+//             <div
+//                 className='max-w-[1024px] w-full pb-4 flex border-b-2'
+//             >
+//                         <img 
+//                             src={image}
+//                             alt={`Cover for ${title}`}
+//                             className='w-[25%] h-[10rem] rounded-md'
+//                         />
+
+//                     <div className="ml-4 mt-1">
+//                         {isUsersPost 
+//                             ?
+//                             <div className="flex items-center mb-3">
+//                                 <div className="flex font-medium items-center">
+//                                     <p>Published: </p>
+//                                     <p className="text-sm text-gray-500 ml-1">
+//                                      {timeAgo}
+//                                     </p>
+//                                 </div>
+//                             </div>
+//                             :
+//                                 <div className="flex items-center mb-3">
+//                                     <img 
+//                                         src={author.image} 
+//                                         alt={`Author: ${author.firstName}`} 
+//                                         className="w-5 h-5 object-cover rounded-full mr-2"
+//                                     />
+//                                     <div>
+//                                         <p className="text-sm font-medium text-gray-600">{author.firstName}</p>
+//                                     </div>
+//                                 </div>
+//                         }
+                    
+//                         <h2 
+//                             className="text-2xl font-extrabold text-gray-900 mb-2 line-clamp-2 capitalize"
+//                         >
+//                             {title}
+//                         </h2>
+//                         <p 
+//                             className="text-gray-600 line-clamp-3"
+//                         >
+//                             {blog.description}
+//                         </p>
+
+//                         <div className="flex items-center mt-4">
+//                             <p
+//                                 className="text-red-500 mr-2"
+//                             >
+//                                 {blog.tag}
+//                             </p>
+//                             { !isUsersPost &&
+//                                 <React.Fragment>
+//                                 <span>•</span>
+
+//                                 <p className="text-xs mt-[2px] ml-2 text-gray-500">
+//                                     {timeAgo}
+//                                 </p>
+//                                 </React.Fragment>
+//                             }
+//                         </div>
+//                 </div>
+//             </div>
+//         </div>
+//     )
+// })
+
+// export default BlogListComponent
+
+import React, { useMemo } from 'react'
 import { formatDistance } from 'date-fns'
+import { useNavigate } from 'react-router-dom'
 
 const BlogListComponent = React.memo(({ blog, isUsersPost }) => {
-    const navigate = useNavigate()
-    const { slug, title, createdAt, image, author } = blog
 
-    const createdAtDate = useMemo(() => createdAt.split('T')[0], [createdAt])
+    const navigate = useNavigate()
+
+    const { slug, title, createdAt, image, author, description, tag } = blog
+
     const timestamp = useMemo(() => new Date(createdAt), [createdAt])
     const now = new Date()
-    const timeAgo = useMemo(() => formatDistance(timestamp, now, { addSuffix: true }), [timestamp, now])
-
-    const [hoveredPost, setHoveredPost] = useState(null)
+    const timeAgo = useMemo(() => {
+        const distance = formatDistance(timestamp, now, { addSuffix: true })
+        return distance.replace('about ', '')
+    }, [timestamp, now])
 
     const handleBlogClick = () => {
         navigate(`/blog/${slug}`, { state: { blogData: blog } })
     }
 
     return (
-        <article 
-            key={slug} 
-            className="mx-10 bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-102 hover:shadow-lg"
-            style={{boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}
-            onMouseEnter={() => setHoveredPost(slug)}
-            onMouseLeave={() => setHoveredPost(null)}
-        >
-            <div 
-                className="flex flex-col sm:flex-row"
-                onClick={() => handleBlogClick(slug)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                    handleBlogClick(slug)
-                    }
-                }}
-            >
-                <div className="sm:w-1/6 relative">
-                    {/* <div className="aspect-w-4 aspect-h-3 relative"> */}
-                    <div className="w-full h-30 aspect-w-4 aspect-h-3 sm:w-full sm:h-full relative border-r border-black border-opacity-10">
-
-                        <img
-                            src={image}
-                            alt={`Cover for ${title}`}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            loading="lazy"
-                        />
-                        <div className={`absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-300 ${hoveredPost === slug ? 'opacity-100' : 'opacity-0'}`}>
-                            <span className="text-white font-semibold">Read More</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="sm:w-2/3 p-6">
-                {isUsersPost 
-                    ?
-                    <div className="flex items-center mb-4">
-                        <div>
-                            <p className="text-xs text-gray-500">
-                            Published: {timeAgo}
-                            </p>
-                        </div>
-                    </div>
-                    :
-                        <div className="flex items-center mb-4">
-                            <img 
-                                src={author.image} 
-                                alt={`Author: ${author.firstName}`} 
-                                className="w-10 h-10 rounded-full mr-4"
-                            />
-                            <div>
-                                <p className="text-sm font-semibold">{author.firstName}</p>
-                                <p className="text-xs text-gray-500">
-                                {timeAgo}
-                                </p>
-                            </div>
-                        </div>
-                }
-                    
-                    <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 capitalize">
-                    {title}
-                    </h2>
-                    <p className="text-gray-600 line-clamp-3">
-                    {blog.description}
-                    </p>
-                </div>
+        <div className="flex justify-center items-center cursor-pointer" onClick={handleBlogClick}>
+        <div className=" w-full pb-6 flex flex-col md:flex-row border-b-2 last:border-b-0 mx-4 xl:mx-0 lg:mx-4 md:mx-6">
+            <div className="w-full md:w-[27%] xl:w-[28%] h-48 md:h-auto">
+            <img 
+                src={image}
+                alt={`Cover for ${title}`}
+                className="w-full h-full object-cover rounded-md"
+            />
             </div>
-        </article>
+
+            <div className="mt-4 md:mt-0 md:ml-4 pl-2 xl:pl-0 lg:pl-0 md:pl-2 sm:pl-2 flex-1">
+            {isUsersPost ? (
+                <div className="flex items-center mb-3">
+                <div className="flex font-medium items-center pt-2">
+                    <p className="font-medium">Published: </p>
+                    <p className="text-sm text-gray-500 ml-1">{timeAgo}</p>
+                </div>
+                </div>
+            ) : (
+                <div className="flex items-center mb-3">
+                <img 
+                    src={author.image} 
+                    alt={`Author: ${author.firstName}`} 
+                    className="w-5 h-5 object-cover rounded-full mr-2"
+                />
+                <div>
+                    <p className="text-sm font-medium text-gray-600">{author.firstName}</p>
+                </div>
+                </div>
+            )}
+            
+            <h2 className="text-xl md:text-[1.8rem] font-semibold tracking-normal text-gray-900 my-3 p-1line-clamp-2 capitalize">
+                {title}
+            </h2>
+            <p className="text-gray-600 line-clamp-2 md:line-clamp-3">
+                {description}
+            </p>
+
+            <div className="flex items-center mt-4">
+                <p className="text-sm font-bold text-red-500 mr-2">{tag}</p>
+                {!isUsersPost && (
+                <>
+                    <span>•</span>
+                    <p className="text-xs mt-[2px] ml-2 text-gray-500">{timeAgo}</p>
+                </>
+                )}
+            </div>
+            </div>
+        </div>
+        </div>
     )
 })
 

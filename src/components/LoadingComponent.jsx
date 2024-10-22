@@ -16,7 +16,7 @@ function LoadingComponent() {
   }, [])
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center" style={{ height: "calc(100vh - 6rem)" }}>
       <div className="flex items-center space-x-2">
         <Pen className="w-6 h-6 text-blue-500" />
         <div className="w-16 text-blue-500 text-2xl font-bold">
