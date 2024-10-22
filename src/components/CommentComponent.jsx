@@ -72,7 +72,7 @@ const CommentComponent = ({ slug, commentSectionRef, comments, setComments}) => 
     return (
         <React.Fragment>
             <div className="mt-10 border-t border-gray-300" ref={commentSectionRef}>
-                <h4 className="mt-4 text-xl font-semibold">Comments</h4>
+                <h4 className="mt-4 text-2xl font-semibold">Comments</h4>
             </div>
 
             <div className="mt-6 flex flex-col">

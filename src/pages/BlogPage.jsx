@@ -187,23 +187,23 @@ const BlogPage = () => {
                     <div className="w-full mt-12">
                         
                         <div className="">
-                            <h1 className="text-3xl font-bold capitalize">{blogData.title}</h1>
-                            <h5 className="text-gray-500 mt-2 text-lg">{blogData.description}</h5>
+                            <h1 className="text-5xl leading-tight font-bold capitalize">{blogData.title}</h1>
+                            <h5 className="text-gray-500 mt-2 text-2xl">{blogData.description}</h5>
                         </div>
 
                         
                         <div className="mt-10 flex items-center">
-                            <div className="h-16 w-16">
-                                <img src={blogData.author.image} alt="" className="h-full w-full rounded-full" />
+                            <div className="h-14 w-14">
+                                <img src={blogData.author.image} alt="" className="h-full w-full object-cover rounded-full" />
                             </div>
                             <div className="ml-3">
-                                <h5 className="text-lg font-semibold">{blogData.author.firstName} {blogData.author.lastName}</h5>
+                                <h5 className="text-lg font-medium">{blogData.author.firstName} {blogData.author.lastName}</h5>
                                 <h5 className="text-gray-500 text-sm">Published on: {createdAt}</h5>
                             </div>
                         </div>
 
                         
-                        <div className="mt-8 flex justify-between border-t border-b border-gray-300 py-4">
+                        <div className="mt-8 flex justify-between border-t border-b border-gray-300 py-4 px-4">
                             <div className="flex space-x-3">
                                 <div className="flex items-center space-x-2">
                                     <LikeComponent 
@@ -238,12 +238,12 @@ const BlogPage = () => {
 
                         
                         <div className="mt-10 flex justify-center">
-                            <img src={blogData.image} className="max-w-full w-full h-auto object-contain lg:max-w-4xl" />
+                            <img src={blogData.image} className="max-w-full w-full h-auto object-contain lg:max-w-4xl rounded-md" />
                         </div>
 
                         
                         <div className="mt-10">
-                            <div className="content" dangerouslySetInnerHTML={{ __html: blogData.blogContent }}></div>
+                            <div className="content text-xl leading-relaxed tracking-wide" dangerouslySetInnerHTML={{ __html: blogData.blogContent }}></div>
                         </div>
 
                         <CommentComponent 
