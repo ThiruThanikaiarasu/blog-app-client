@@ -12,7 +12,7 @@ const Homepage = () => {
 
     const memoizedBlogList = useMemo(() => {
         return blogPost.map((blog, index) => (
-            <div key={blog.slug} className={`w-full max-w-[1024px] md:max-w[450px] my-6 ${index === blogPost.length - 1 ? '' : 'border-b-2'}`}>
+            <div key={blog.slug} className={`w-full max-w-[1024px] md:max-w[450px] my-3 ${index === blogPost.length - 1 ? '' : 'border-b-2'}`}>
                 <BlogListComponent blog={blog} />
             </div>
         ))
