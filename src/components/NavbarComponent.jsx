@@ -59,7 +59,7 @@ const NavbarComponent = () => {
                 <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-4 md:px-4 lg:px-4 xl:px-0">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex items-center">
-                            <Link to={linkToDestination} className="text-2xl font-bold text-red-500">
+                            <Link to={linkToDestination} className="text-3xl xl:text-2xl lg:text-2xl md:text-3xl sm:text-3xl font-bold text-red-500">
                             Jotify
                             </Link>
                         </div>
@@ -71,12 +71,12 @@ const NavbarComponent = () => {
                                 onClick={handleWriteClick}
                             >
                                 <span
-                                    className="rounded-full bg-gray-100 mr-2 p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-900"
+                                    className="rounded-full bg-gray-100 mr-0 xl:mr-2 lg:mr-2 md:mr-2 sm:mr-0 p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-900"
                                 >
-                                    <PenSquare className="h-5 w-5" />
+                                    <PenSquare className="h-6 w-6 xl:h-5 xl:w-5 lg:h-5 lg:w-5 md:h-6 md:w-6 sm:w-6 sm:h-6" />
                                 </span>
                                 <span 
-                                    className="ml-0"
+                                    className="ml-0 hidden xl:inline lg:inline md:hidden sm:hidden"
                                 >
                                     Write
                                 </span>
@@ -93,7 +93,7 @@ const NavbarComponent = () => {
                                         <img 
                                             src={userProfile.image} 
                                             alt="Logo"
-                                            className="h-7 w-7 max-h-full max-w-full object-cover rounded-full" 
+                                            className="h-8 w-8 xl:h-7 xl:w-7 lg:h-7 lg:w-7 md:h-8 md:w-8 sm:w-8 sm:h-8 max-h-full max-w-full object-cover rounded-full" 
                                         />
                                     </button>
                                     <UserProfileDropdownMenu
