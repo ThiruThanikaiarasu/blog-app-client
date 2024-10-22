@@ -67,8 +67,9 @@ const BlogWritingComponent = () => {
     }
 
     return (
-        <div className="mt-4 w-full max-w-4xl mx-auto h-full">
-            <div className="sticky top-0 z-10 flex justify-between items-center py-4 bg-white">
+        <div className="pt-4 w-full max-w-4xl mx-auto h-full">
+            {/* Sticky Button Container */}
+            <div className="sticky top-20 z-10 flex justify-between items-center py-4 w-full bg-white">
                 <div className="ml-4"></div>
                 <ButtonComponent
                     onClick={handlePublish}
@@ -77,6 +78,8 @@ const BlogWritingComponent = () => {
                     Publish
                 </ButtonComponent>
             </div>
+    
+            {/* Blog Title Input */}
             <div className="mb-4">
                 <InputComponent 
                     type="text"
@@ -84,15 +87,18 @@ const BlogWritingComponent = () => {
                     value={title}
                     onChange={handleBlogTitleChange}
                     className={`w-full py-3 px-4 mb-2 bg-gray-200 text-2xl rounded-md focus:outline-none ${errors.title ? 'border border-red-500' : ''}`}
-                ></InputComponent>
+                />
                 {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
             </div>
+    
+            {/* Blog Content Editor */}
             {errors.blogContent && <p className="text-red-500 text-sm">{errors.blogContent}</p>}
             <div className="quill-blog">
                 <div className={`write-blog-container`} ref={wrapperRef}></div>
             </div>
         </div>
     )
+    
 }
 
 export default BlogWritingComponent
