@@ -9,9 +9,13 @@ import authService from '../../api/authService'
 import toast from 'react-hot-toast'
 import useForm from '../../hooks/useForm'
 import ButtonComponent from '../../components/ButtonComponent'
+import useUserContext from '../../hooks/useUserContext'
 
 
 function SignupComponent() {
+
+    const { setSignupFormData } = useUserContext()
+
 
     const [isSubmitting, setIsSubmitting] = useState(false)
 

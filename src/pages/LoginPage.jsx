@@ -11,7 +11,9 @@ import google_logo from '../../src/assets/img/google-logo.svg'
 
 const LoginPage = () => {
 
-    const { setIsUserLoggedIn, setUserProfile } = useUserContext()
+    const { setIsUserLoggedIn, setUserProfile, setSignupFormData } = useUserContext()
+
+    
     const navigate = useNavigate()
 
     const [showPassword, setShowPassword] = useState(false)
