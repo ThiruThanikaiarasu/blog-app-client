@@ -1,8 +1,17 @@
 import React, { createContext, useEffect, useState } from 'react'
 
+
 const UserContext = createContext()
 
 const UserProvider = ({ children }) => {
+
+    const [signupFormData, setSignupFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+    })
+
     const storedUserProfile = localStorage.getItem('userProfile')
     const storedIsLoggedIn = localStorage.getItem('isUserLoggedIn')
 
@@ -14,9 +23,20 @@ const UserProvider = ({ children }) => {
     const [userPosts, setUserPosts] = useState([])
     const [userBookmarkedPosts, setUserBookmarkedPosts] = useState([])
 
+    useEffect(() => {
+        if (userProfile) {
+            localStorage.setItem('userProfile', JSON.stringify(userProfile))
+        }
+        localStorage.setItem('isUserLoggedIn', isUserLoggedIn)
+    }, [userProfile, isUserLoggedIn])
+
+    const value = {
+        isUserLoggedIn, userProfile, setIsUserLoggedIn, setUserProfile, signupFormData, setSignupFormData, userPosts, setUserPosts, userBookmarkedPosts, setUserBookmarkedPosts
+    }
+
     return (
         <UserContext.Provider
-            value={{ isUserLoggedIn, userProfile, setIsUserLoggedIn, setUserProfile, userPosts, setUserPosts, userBookmarkedPosts, setUserBookmarkedPosts }}>
+            value={ value }>
             {children}
         </UserContext.Provider>
     )

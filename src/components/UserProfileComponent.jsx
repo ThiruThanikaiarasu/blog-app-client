@@ -25,22 +25,23 @@ export default function UserProfileComponent() {
         setIsLoading(true)
         blogService.fetchUserPostsAndBookmarks()
             .then((response) => {
+                console.log(response)
                 if(response.status == 200) {
                     setUserPosts(response.data.userPosts)
                     setUserBookmarkedPosts(response.data.userBookmarks)
                 }
             })
             .catch((error) => {
-                if(error.response.status == 401) {
+                if (!error.response) {
+                    toast.error('No internet connection. Please check your network.');
+                } else if(error.response.status == 401) {
                     removeLocalStorage()
                     navigate('/login')
                     toast.error('Session Expired, Login Again to continue.')
-                }
-                if(error.response.status == 500) {
-                    toast.error(`${error.response.data.message}`)
-                }
-                else {
-                    toast.error(`${error}`)
+                } else if (error.response.status === 500) {
+                    toast.error('Server error. Please try again later.');
+                } else {
+                    toast.error('Something went wrong. Please try again.');
                 }
             })
             .finally(()=> {
@@ -92,13 +93,29 @@ export default function UserProfileComponent() {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div className="bg-white rounded-lg p-6 mb-8 border">
                 <div className="flex flex-col items-center sm:flex-row sm:items-start">
-                <img
-                    src={userProfile.image}
-                    alt={`${userProfile}'s Profile picture`}
-                    className="w-24 h-24 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6"
-                />
+
+                {userProfile?.image ? (
+                    <img
+                        src={userProfile.image}
+                        alt={`${userProfile}'s Profile picture`}
+                        className="w-24 h-24 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6"
+                    />
+                ) : (
+                    <div 
+                        className="w-24 h-24 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6 flex items-center justify-center"
+                        style={{ 
+                            backgroundColor: userProfile?.profile?.background, 
+                            color: userProfile?.profile?.color 
+                        }}
+                    >
+                        <p className="text-[48px] font-semibold select-none" style={{color: userProfile?.profile?.color }}>
+                            {userProfile?.profile?.letter}
+                        </p>
+                    </div>
+                )}
+                
                 <div className="text-center sm:text-left">
                     <h1 className="text-2xl font-bold">{userProfile.firstName}</h1>
                     <p className="text-gray-600">{userProfile.email}</p>

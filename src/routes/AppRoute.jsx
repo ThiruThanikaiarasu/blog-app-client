@@ -14,6 +14,9 @@ const BlogWritingComponent = lazy(() => import('../components/BlogWritingCompone
 const BlogDetailsComponent = lazy(() => import('../components/BlogDetailsComponent'))
 const ProfileLayout = lazy(() => import('../layouts/ProfileLayout'))
 const UserProfileComponent = lazy(() => import('../components/UserProfileComponent'))
+const SignupEmailCapture = lazy(() => import('../pages/SignupComponent/SignupEmailCaptureStep'))
+const SignupEmailVerification = lazy(() => import('../pages/SignupComponent/SignupEmailVerification'))
+const SignupEmailProfile = lazy(() => import('../pages/SignupComponent/SignupEmailProfile'))
 
 const AppRoute = () => {
     return (
@@ -36,7 +39,10 @@ const AppRoute = () => {
                     {/* Auth Layout Routes */}
                     <Route element={<AuthLayout />}>
                         <Route path="/login" element={<LoginPage />} />
-                        <Route path="/signup" element={<SignupPage />} />
+                        {/* <Route path="/signup" element={<SignupPage />} /> */}
+                        <Route path="/signup" element={<SignupEmailCapture />} />
+                        <Route path="/signup/email-verification" element={<SignupEmailVerification />} />
+                        <Route path="/signup/profile" element={<SignupEmailProfile />} />
                     </Route>
                 </Routes>
             </Suspense>

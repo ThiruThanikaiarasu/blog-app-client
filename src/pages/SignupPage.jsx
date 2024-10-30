@@ -66,7 +66,7 @@ const SignupPage = () => {
     )
 
     return (
-        <div className="flex items-center justify-center h-screen">
+        <div className="flex items-center justify-center h-screen" style={{height: 'calc(100vh - 80px)'}}>
             <div className="w-full max-w-xl bg-white p-8 rounded-lg border">
 
                 <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>

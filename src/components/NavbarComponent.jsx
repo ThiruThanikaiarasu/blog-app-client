@@ -82,9 +82,56 @@ const NavbarComponent = () => {
                                 </span>
                             </button>
 
-                            
+                            {isUserLoggedIn ? (
+                                userProfile?.image ? (
+                                    <div>
+                                        <button 
+                                            className="rounded-full bg-gray-300 p-1" 
+                                            aria-label="User profile"
+                                            onClick={handleToggle}
+                                        >
+                                            <img 
+                                                src={userProfile.image} 
+                                                alt="Logo"
+                                                className="h-8 w-8 xl:h-7 xl:w-7 lg:h-7 lg:w-7 md:h-8 md:w-8 sm:w-8 sm:h-8 max-h-full max-w-full object-cover rounded-full" 
+                                            />
+                                        </button>
+                                        <UserProfileDropdownMenu
+                                            isOpen={isOpen} 
+                                            dropdownRef={dropdownRef}
+                                            onClose={() => setIsOpen(false)}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div 
+                                        className={`cursor-pointer h-8 w-8 xl:h-7 xl:w-7 lg:h-7 lg:w-7 md:h-8 md:w-8 sm:w-8 sm:h-8 max-h-full max-w-full object-cover rounded-full flex items-center justify-center`}
+                                        style={{ 
+                                            backgroundColor: userProfile?.profile?.background, 
+                                            color: userProfile?.profile?.color 
+                                        }}
+                                        onClick={handleToggle}
+                                    >
+                                        <p className="text-[16px] font-semibold select-none">
+                                            {userProfile?.profile?.letter}
+                                        </p>
+                                        <UserProfileDropdownMenu
+                                            isOpen={isOpen} 
+                                            dropdownRef={dropdownRef}
+                                            onClose={() => setIsOpen(false)}
+                                        />
+                                    </div>
+                                )
+                            ) : (
+                                <p 
+                                    className="cursor-pointer py-2" 
+                                    onClick={handleLoginClick}
+                                >
+                                    Login
+                                </p>
+                            )}
 
-                                {userProfile?.image ? 
+
+                                {/* {userProfile?.image ? 
                                 <div>
                                     <button 
                                         className="rounded-full bg-gray-300 p-1" aria-label="User profile"
@@ -110,7 +157,7 @@ const NavbarComponent = () => {
                                     >
                                         Login
                                     </p>
-                                }
+                                } */}
                                 
                         </div>
                     </div>
