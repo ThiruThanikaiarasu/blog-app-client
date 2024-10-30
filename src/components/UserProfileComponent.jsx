@@ -99,7 +99,7 @@ export default function UserProfileComponent() {
                 {userProfile?.image ? (
                     <img
                         src={userProfile.image}
-                        alt={`${userProfile}'s Profile picture`}
+                        alt={`${userProfile.firstName}'s Profile picture`}
                         className="w-24 h-24 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6"
                     />
                 ) : (

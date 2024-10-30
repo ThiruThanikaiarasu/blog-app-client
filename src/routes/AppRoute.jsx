@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import LoadingComponent from '../components/LoadingComponent'
 import HeroPage from '../pages/HeroPage'
 import ScrollToTop from '../components/ScrollToTop'
+import GoogleAccountVerification from '../components/GoogleAccountVerification'
+import GoogleAuthLayout from '../layouts/GoogleAuthLayout'
 
 const LoginPage = lazy(() => import('../pages/LoginPage'))
 const SignupPage = lazy(() => import('../pages/SignupPage'))
@@ -43,6 +45,10 @@ const AppRoute = () => {
                         <Route path="/signup" element={<SignupEmailCapture />} />
                         <Route path="/signup/email-verification" element={<SignupEmailVerification />} />
                         <Route path="/signup/profile" element={<SignupEmailProfile />} />
+                    </Route>
+
+                    <Route element={<GoogleAuthLayout />}>
+                        <Route path="/google-account-verification" element={<GoogleAccountVerification />}/>
                     </Route>
                 </Routes>
             </Suspense>

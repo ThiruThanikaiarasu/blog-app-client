@@ -94,7 +94,7 @@ function SignupComponent() {
                             alt="" 
                             className="h-8 w-8"    
                         />
-                        Goggle
+                        Sign in with Goggle
                     </ButtonComponent>
 
                     <div className="flex items-center w-full">
