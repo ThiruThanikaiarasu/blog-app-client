@@ -71,9 +71,10 @@ const NavbarComponent = () => {
                                 onClick={handleWriteClick}
                             >
                                 <span
-                                    className="rounded-full bg-gray-100 mr-0 xl:mr-2 lg:mr-2 md:mr-2 sm:mr-0 p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-900"
+                                    // className="rounded-full bg-gray-100 mr-0 xl:mr-2 lg:mr-2 md:mr-2 sm:mr-0 p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-900"
+                                    className="rounded-full bg-red-50 mr-0 xl:mr-1 lg:mr-1 md:mr-1 sm:mr-0 p-2 text-red-500 hover:bg-red-100 hover:text-red-100"
                                 >
-                                    <PenSquare className="h-6 w-6 xl:h-5 xl:w-5 lg:h-5 lg:w-5 md:h-6 md:w-6 sm:w-6 sm:h-6" />
+                                    <PenSquare className="h-6 w-6 xl:h-5 xl:w-5 lg:h-5 lg:w-5 md:h-6 md:w-6 sm:w-6 sm:h-6" color='red'/>
                                 </span>
                                 <span 
                                     className="ml-0 hidden xl:inline lg:inline md:hidden sm:hidden"
