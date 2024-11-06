@@ -17,13 +17,14 @@ const LoginPage = () => {
     const navigate = useNavigate()
 
     const [showPassword, setShowPassword] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword)
     }
 
     const handleGoogleSignInAuth = async () => {
-        console.log("clicked")
+        setIsLoading(true)
         authService.requestGoogleAuthUrl()
             .then((response) => {
                 console.log(response.data.data)
@@ -40,6 +41,9 @@ const LoginPage = () => {
                 } else {
                     toast.error('Something went wrong. Please try again.');
                 }
+            })
+            .finally(() => {
+                setIsLoading(false)
             })
         }
 
@@ -114,6 +118,7 @@ const LoginPage = () => {
                     showPassword={showPassword}
                     togglePasswordVisibility={togglePasswordVisibility}
                     formType="login"
+                    isLoading={isLoading}
                 />
 
             </div>

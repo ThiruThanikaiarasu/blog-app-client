@@ -17,6 +17,7 @@ const SignupEmailProfile = () => {
     const { setIsUserLoggedIn, setUserProfile } = useUserContext()
 
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isLoading, setIsLoading] = useState
 
     const navigate = useNavigate()
 
@@ -35,7 +36,7 @@ const SignupEmailProfile = () => {
             password: formData.password
         }
 
-        console.log(data)
+        setIsSubmitting(true)
         authService.signup(data)
             .then((response) => {
                 if(response.status == 201) {

@@ -4,12 +4,17 @@ import { Link, useNavigate } from 'react-router-dom'
 import useBlogContext from '../hooks/useBlogContext'
 import blogService from '../api/blogService'
 import HeroBlogCardComponent from '../components/HeroBlogCardComponent'
+import { formatDistance } from 'date-fns'
 
 const HeroPage = () => {
 
     const navigate = useNavigate()
 
     const {homeMainFeed, setHomeMainFeed, homeFeed, setHomeFeed} = useBlogContext()
+
+    const timeStamp = homeMainFeed?.createdAt ? new Date(homeMainFeed.createdAt) : null;
+    console.log(timeStamp)
+    const timeAgo = formatDistance(timeStamp, new Date(), {addSuffix: true})
 
     const [loading, setLoading] = useState(true)
 
@@ -99,7 +104,7 @@ const HeroPage = () => {
                                     </div>
                                 </div>
                                 <span className="hidden xl:inline lg:inline md:hidden sm:inline">•</span>
-                                <span className="text-lg hidden xl:inline lg:inline md:hidden sm:inline">12 minutes ago</span>
+                                <span className="text-lg hidden xl:inline lg:inline md:hidden sm:inline">{timeAgo}</span>
                             </div>
 
                             <h2 className="mt-0 xl:mt-6 lg:mt-6 md:mt-6 sm:mt-6 font-semibold text-gray-900 text-2xl sm:text-2xl md:text-4xl lg:text-5xl xl:text-5xl leading-[2.5rem] xl:leading-[3.5rem] lg:leading-[3.5rem] md:leading-[3rem] sm:leading-[2.5rem]">
