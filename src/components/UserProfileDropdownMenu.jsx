@@ -22,6 +22,8 @@ const UserProfileDropdownMenu = ({ isOpen, dropdownRef, onClose }) => {
                     setUserProfile(null)
                     localStorage.removeItem('isUserLoggedIn')
                     localStorage.removeItem('userProfile')
+                    const pastDate = new Date(Date.now() - 1000).toUTCString()  // 1 second in the past
+                    document.cookie = `cookieName=; expires=${pastDate}; path=/;`
                     navigate('/')
                     toast.success('Logged out Successfully')                    
                 }

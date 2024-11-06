@@ -24,7 +24,6 @@ const LoginPage = () => {
     }
 
     const handleGoogleSignInAuth = async () => {
-        setIsLoading(true)
         authService.requestGoogleAuthUrl()
             .then((response) => {
                 console.log(response.data.data)
@@ -42,13 +41,11 @@ const LoginPage = () => {
                     toast.error('Something went wrong. Please try again.');
                 }
             })
-            .finally(() => {
-                setIsLoading(false)
-            })
+        
         }
 
     const onSubmit = async (formData) => {
-        console.log("first")
+        setIsLoading(true)
         authService.login(formData) 
             .then((response) => {
                 setIsUserLoggedIn(true)
@@ -71,6 +68,9 @@ const LoginPage = () => {
                 } else {
                     toast.error(`${error.response.data.message}`)
                 }
+            })
+            .finally(() => {
+                setIsLoading(false)
             })
 
     }
