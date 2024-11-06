@@ -13,7 +13,7 @@ const authService = {
     },
 
     logout: async () => {
-        const response = await axiosInstance.get('/user/logout')
+        const response = await axiosInstance.post('/user/logout')
         return response
     }, 
 
